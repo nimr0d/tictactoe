@@ -29,8 +29,7 @@ int stringToInt(const std::string &s) {
  *      > BotIO::action
  *
  */
-class BotIO
-{
+class BotIO {
 
 public:
 
@@ -84,8 +83,8 @@ private:
     std::pair<int, int> getRandomFreeCell() const {
         debug("Using random algorithm.");
         std::vector<int> freeCells;
-        for (int i = 0; i < 81; ++i){
-            int blockId = ((i/27)*3) + (i%9)/3;
+        for (int i = 0; i < 81; ++i) {
+            int blockId = ((i / 27) * 3) + (i % 9) / 3;
             if (_macroboard[blockId] == -1 && _field[i] == 0){
                 freeCells.push_back(i);
             }
