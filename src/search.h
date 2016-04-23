@@ -1,9 +1,9 @@
 #ifndef _H_SEARH_
 #define _H_SEARCH_
 
-#include "bitboard.h"
+#include "board.h"
 #include "types.h"
 
-// int think(Bitboard b0, Bitboard b1, int max_time);
+int think(Board b, int max_time);
 
 #endif

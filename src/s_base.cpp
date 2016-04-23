@@ -1,4 +1,5 @@
 #include "s_base.h"
+
 #include "bitboard.h"
 
 i8 SmallBase[512][512] = {{ 0 }};

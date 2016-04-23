@@ -6,6 +6,7 @@
 #include "bitboard.h"
 #include "s_base.h"
 #include "search.h"
+#include "time.h"
 #include "types.h"
 
 
@@ -33,7 +34,6 @@ class BotIO {
 public:
 
     BotIO() {
-        srand(static_cast<unsigned int>(time(0)));
         field_.resize(81);
         macroboard_.resize(9);
 
@@ -53,7 +53,8 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int time) {
-        return std::pair<int, int>();
+    	Square s = think(b_, moveTime(timebank_, timePerMove_, time, bb_.free.popcount()) + time(0));
+        return std::pair<int, int>(s / 9, s % 9);
     }
 
     void processCommand(const std::vector<std::string> &command) {
@@ -133,6 +134,7 @@ private:
 
     std::vector<int> macroboard_;
     std::vector<int> field_;
+    Board b_;
 };
 
 int main() {

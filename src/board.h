@@ -6,8 +6,8 @@
 
 struct Board {
 	Bitboard b0, b1;
-	SBitboard free;
-	Square sb;
+	Bitboard free;
+	Square move;
 };
 
 #endif
