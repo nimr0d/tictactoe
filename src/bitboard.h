@@ -65,22 +65,28 @@ class Bitboard {
 		}
 
 		// gcc only
-		u8 lsb() {
-			u8 c = __builtin_ffsll(b_[0]);
+		Square lsb() {
+			Square c = __builtin_ffsll(b_[0]);
 			if (c == 0ULL && b_[1] != 0ULL) {
 				c = __builtin_ffsll(b_[1]) + 64ULL;
 			}
 			return c;
 		}
+
 		//gcc only
-		u8 unset_lsb() {
-			u8 c = __builtin_ffsll(b_[0]);
+		Square unset_lsb() {
+			Square c = __builtin_ffsll(b_[0]);
 			b_[0] &= (b_[0] - 1);
 			if (c == 0 && b_[1] != 0) {
 				c = __builtin_ffsll(b_[1]) + 64ULL;
 				b_[1] &= (b_[1] - 1);
 			}
 			return c;
+		}
+
+		//gcc only
+		u8 popcount() {
+			return __builtin_popcountll(b_[0]) + __builtin_popcountll(b_[1]);
 		}
 
 		explicit operator bool() const { 
@@ -94,12 +100,38 @@ class Bitboard {
 
 };
 
+// gcc only
+inline Square lsb(SBitboard bb) {
+	return __builtin_ffs(bb);
+}
+
+//gcc only
+inline Square unset_lsb(SBitboard &bb) {
+	u8 c = __builtin_ffs(bb);
+	bb &= (bb - 1);
+	return c;
+}
+
+//gcc only
+inline u8 popcount(SBitboard bb) {
+	return __builtin_popcount(bb);
+}
+
+void print(SBitboard bb);
+
+
 extern Bitboard SquareBB[81]; // Bitboard for each square
 extern Bitboard AdjacentSquaresBB[81]; // Bitboard of adjacent squares for each square
-extern Bitboard ColumnBB[9];
-extern Bitboard RowBB[9];
-extern Bitboard BSquareBB[9];
+extern Bitboard ColumnBB[9]; // Bitboard for each column.
+extern Bitboard RowBB[9]; // Bitboard for each row.
+extern Bitboard LSquareBB[9]; // Bitboard for each large square.
 extern Bitboard CrosshairBB[81]; // Row and column for every square
+
+extern SBitboard SquareSBB[9];
+extern SBitboard ColumnSBB[3];
+extern SBitboard RowSBB[3];
+extern SBitboard DiagSBB[2];
+
 namespace Bitboards {
 void init();
 }
