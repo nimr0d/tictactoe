@@ -5,6 +5,7 @@
 
 #include "bitboard.h"
 #include "s_base.h"
+#include "search.h"
 #include "types.h"
 
 
@@ -27,20 +28,10 @@ int stringToInt(const std::string &s) {
     return result;
 }
 
-/**
- * This class implements all IO operations.
- * Only one method must be realized:
- *
- *      > BotIO::action
- *
- */
 class BotIO {
 
 public:
 
-    /**
-     * Initialize your bot here.
-     */
     BotIO() {
         srand(static_cast<unsigned int>(time(0)));
         field_.resize(81);
@@ -83,7 +74,6 @@ private:
 
     void update(const std::string& player, const std::string& type, const std::string& value) {
         if (player != "game" && player != myName_) {
-            // It's not my update!
             return;
         }
 
@@ -140,6 +130,7 @@ private:
     // dynamic settings
     int round_;
     int move_;
+
     std::vector<int> macroboard_;
     std::vector<int> field_;
 };

@@ -89,7 +89,7 @@ class Bitboard {
 			return __builtin_popcountll(b_[0]) + __builtin_popcountll(b_[1]);
 		}
 
-		explicit operator bool() const { 
+		operator bool() const { 
 		    return b_[0] | b_[1]; 
 		}
 

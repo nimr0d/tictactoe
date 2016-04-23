@@ -4,6 +4,6 @@
 #include "bitboard.h"
 #include "types.h"
 
-int think(Bitboard b0, Bitboard b1, int max_time);
+// int think(Bitboard b0, Bitboard b1, int max_time);
 
 #endif
