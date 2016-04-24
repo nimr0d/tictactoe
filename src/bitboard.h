@@ -53,7 +53,7 @@ class Bitboard {
 		}
 
 		Bitboard operator~() const {
-			return Bitboard(~b_[0], ~b_[1]);
+			return Bitboard(~b_[0], (~b_[1]) & 131071);
 		}
 
 		bool operator==(const Bitboard& other) const {
@@ -93,6 +93,10 @@ class Bitboard {
 		    return b_[0] | b_[1]; 
 		}
 
+		explicit operator SBitboard() const {
+			return SBitboard(b_[0]) & 511;
+		}
+
 		void print() const;
 	
 	private:
@@ -118,6 +122,8 @@ inline u8 popcount(SBitboard bb) {
 }
 
 void print(SBitboard bb);
+
+Square lSquare(Square sqr);
 
 
 extern Bitboard SquareBB[81]; // Bitboard for each square

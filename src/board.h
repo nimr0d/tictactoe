@@ -5,8 +5,7 @@
 #include "types.h"
 
 struct Board {
-	Bitboard b0, b1;
-	Bitboard free;
+	Bitboard b0, b1, free;
 	Square move;
 };
 

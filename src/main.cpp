@@ -10,7 +10,6 @@
 #include "types.h"
 
 
-
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
     std::string item;
@@ -34,8 +33,9 @@ class BotIO {
 public:
 
     BotIO() {
-        field_.resize(81);
-        macroboard_.resize(9);
+    	b_.free = ~Bitboard(0ULL, 0ULL);
+        // field_.resize(81);
+        // macroboard_.resize(9);
 
     }
 
@@ -52,8 +52,8 @@ public:
 
 private:
 
-    std::pair<int, int> action(const std::string &type, int time) {
-    	Square s = think(b_, moveTime(timebank_, timePerMove_, time, bb_.free.popcount()) + time(0));
+    std::pair<int, int> action(const std::string &type, int t) {
+    	Square s = think(b_, moveTime(timebank_, timePerMove_, t, b_.free.popcount()) + time(0));
         return std::pair<int, int>(s / 9, s % 9);
     }
 
@@ -80,15 +80,35 @@ private:
 
         if (type == "round") {
             round_ = stringToInt(value);
+
         }
         else if (type == "move") {
             move_ = stringToInt(value);
         }
-        else if (type == "macroboard" || type == "field") {
-            std::vector<std::string> rawValues;
+        else if (type == "field") {
+        	std::vector<std::string> rawValues;
+            split(value, ',', rawValues);
+            for (int i = 0; i < rawValues.size(); ++i) {
+            	int s = stringToInt(rawValues[i]);
+            	if (s != 0 && s != botId_) {
+            		Bitboard n_b = b_.b1 | SquareBB[i];
+        			if (n_b != b_.b1) {
+        				b_.b1 = n_b;
+        				b_.move = i;
+        				Square ls =lSquare(i);
+        				// if (Endbase[(LSquareBB[ls] & b_.b1) >> ])
+        			}
+            
+            	}
+            }
+
+        }
+        else if (type == "macroboard") {
+            /*std::vector<std::string> rawValues;
             split(value, ',', rawValues);
             std::vector<int>::iterator choice = (type == "field" ? field_.begin() : macroboard_.begin());
-            std::transform(rawValues.begin(), rawValues.end(), choice, stringToInt);
+            std::transform(rawValues.begin(), rawValues.end(), choice, stringToInt);*/
+
         }
         else {
             debug("Unknown update <" + type + ">.");
@@ -132,8 +152,8 @@ private:
     int round_;
     int move_;
 
-    std::vector<int> macroboard_;
-    std::vector<int> field_;
+    // std::vector<int> macroboard_;
+    // std::vector<int> field_;
     Board b_;
 };
 

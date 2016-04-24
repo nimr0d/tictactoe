@@ -25,6 +25,10 @@ void print(SBitboard bb) {
 	}
 }
 
+Square lSquare(Square sqr) {
+	return sqr / 27 + (sqr / 3) % 3;
+}
+
 u8 PopCnt16[1 << 16];
 
 Bitboard SquareBB[81];
