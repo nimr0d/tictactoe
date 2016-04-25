@@ -4,6 +4,6 @@
 #include "board.h"
 #include "types.h"
 
-int think(Board &b, int max_time);
+Square think(Board &b, int max_time);
 
 #endif

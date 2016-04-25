@@ -1,0 +1,13 @@
+#include "board.h"
+
+#include <iostream>
+
+void print(const Board &b) {
+	std::cerr << "Board:\n";
+	b.b0.print();
+	std::cerr << "\n";
+	b.b1.print();
+	std::cerr << "\n";
+	b.free.print();
+	std::cerr << "\n" << int(b.move) << "\n";
+}

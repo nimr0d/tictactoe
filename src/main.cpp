@@ -1,12 +1,12 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-#include <time.h>
+#include <ctime>
 
 #include "bitboard.h"
 #include "s_base.h"
 #include "search.h"
-#include "time.h"
+#include "time_mgmt.h"
 #include "types.h"
 
 
@@ -33,7 +33,10 @@ class BotIO {
 public:
 
     BotIO() {
+    	b_.b0 = Bitboard(0ULL, 0ULL);
+    	b_.b1 = Bitboard(0ULL, 0ULL);
     	b_.free = ~Bitboard(0ULL, 0ULL);
+    	b_.move = SQUARE_NONE;
         // field_.resize(81);
         // macroboard_.resize(9);
 
@@ -46,6 +49,7 @@ public:
         command.reserve(256);
 
         while (std::getline(std::cin, line)) {
+        	std::cerr << line << "\n";
             processCommand(split(line, ' ', command));
         }
     }
@@ -53,12 +57,20 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-    	Square s = think(b_, moveTime(timebank_, timePerMove_, t, b_.free.popcount()) + time(0));
-        return std::pair<int, int>(s / 9, s % 9);
+    	Square s = think(b_, moveTime(timebank_, timePerMove_, t, b_.free.popcount()) + std::time(0));
+    	b_.b0 |= SquareBB[s];
+    	b_.move = s;
+    	updateFree(s, true);
+    	std::cerr << "action:\n";
+    	print(b_);
+        return std::pair<int, int>(s % 9, s / 9);
     }
 
     void processCommand(const std::vector<std::string> &command) {
-        if (command[0] == "action") {
+    	if (command.empty()) {
+
+    	}
+        else if (command[0] == "action") {
             auto point = action(command[1], stringToInt(command[2]));
             std::cout << "place_move " << point.first << " " << point.second << std::endl << std::flush;
         }
@@ -73,11 +85,19 @@ private:
         }
     }
 
+    void updateFree(Square move, bool p0) {
+    	b_.free &= ~SquareBB[move];
+    	Square ls = lSquare(move);
+    	print(Smallboard(b_.b1, ls));
+    	if (EndBase[Smallboard(p0 ? b_.b0 : b_.b1, ls)]) {
+    		b_.free &= ~LSquareBB[ls];
+    	}
+    }
+
     void update(const std::string& player, const std::string& type, const std::string& value) {
         if (player != "game" && player != myName_) {
             return;
         }
-
         if (type == "round") {
             round_ = stringToInt(value);
 
@@ -88,20 +108,20 @@ private:
         else if (type == "field") {
         	std::vector<std::string> rawValues;
             split(value, ',', rawValues);
-            for (int i = 0; i < rawValues.size(); ++i) {
+            for (Square i = 0; i < rawValues.size(); ++i) {
             	int s = stringToInt(rawValues[i]);
             	if (s != 0 && s != botId_) {
             		Bitboard n_b = b_.b1 | SquareBB[i];
         			if (n_b != b_.b1) {
         				b_.b1 = n_b;
         				b_.move = i;
-        				Square ls =lSquare(i);
-        				// if (Endbase[(LSquareBB[ls] & b_.b1) >> ])
+        				updateFree(i, false);
+        				break;
         			}
-            
             	}
             }
-
+            std::cerr << "update:\n";
+            print(b_);
         }
         else if (type == "macroboard") {
             /*std::vector<std::string> rawValues;

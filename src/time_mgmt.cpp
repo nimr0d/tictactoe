@@ -1,6 +1,6 @@
-#include "time.h"
+#include "time_mgmt.h"
 
-#include <time.h>
+#include <ctime>
 
 i64 moveTime(i64 timebank, i64 timePerMove, i64 time, u8 numFree) {
 	time = (9 * time) / 10;

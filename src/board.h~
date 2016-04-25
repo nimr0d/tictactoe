@@ -9,4 +9,6 @@ struct Board {
 	Square move;
 };
 
+void print(const Board &b);
+
 #endif

@@ -11,3 +11,7 @@ typedef u8 Square;
 typedef u8 Column;
 typedef u8 Row;
 typedef u32 SBitboard;
+
+#define SQUARE_NONE 81
+#define INFTY 0x100000000
+#define WIN 0xffffffff

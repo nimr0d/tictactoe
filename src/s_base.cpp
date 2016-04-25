@@ -3,7 +3,7 @@
 #include "bitboard.h"
 
 i8 SmallBase[512][512] = {{ 0 }};
-bool EndBase[512] = { false };
+bool EndBase[512];
 
 bool winning(SBitboard b0) {
 	for (u8 i = 0; i < 3; ++i) {
@@ -18,7 +18,6 @@ bool winning(SBitboard b0) {
 }
 
 void SBase::init() {
-	int count = 0;
 
 	for (SBitboard x = 511; x != -1U; --x) {
 		EndBase[x] = winning(x);
@@ -40,8 +39,6 @@ void SBase::init() {
 				} 
 
 				SmallBase[b0][b1] = w;
-
-				++count;
 			}
 
 		}

@@ -94,7 +94,7 @@ class Bitboard {
 		}
 
 		explicit operator SBitboard() const {
-			return SBitboard(b_[0]) & 511;
+			return b_[0];
 		}
 
 		void print() const;
@@ -124,6 +124,7 @@ inline u8 popcount(SBitboard bb) {
 void print(SBitboard bb);
 
 Square lSquare(Square sqr);
+SBitboard Smallboard(Bitboard b, Square ls);
 
 
 extern Bitboard SquareBB[81]; // Bitboard for each square

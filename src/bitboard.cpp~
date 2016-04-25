@@ -6,12 +6,12 @@ void Bitboard::print() const {
 		for (int j = 0; j < 9; ++j) {
 			char c = 9 * i + j;
 			if (c < 64) {
-				std::cout << ((b_[0] >> c) & 1) << " ";
+				std::cerr << ((b_[0] >> c) & 1) << " ";
 			} else {
-				std::cout << ((b_[1] >> (c - 64)) & 1) << " ";
+				std::cerr << ((b_[1] >> (c - 64)) & 1) << " ";
 			}
 		}
-		std::cout << "\n";
+		std::cerr << "\n";
 	}
 }
 
@@ -19,14 +19,19 @@ void print(SBitboard bb) {
 	for (int i = 2; i >= 0; --i) {
 		for (int j = 0; j < 3; ++j) {
 			char c = 3 * i + j;
-			std::cout << ((bb >> c) & 1) << " ";
+			std::cerr << ((bb >> c) & 1) << " ";
 		}
-		std::cout << "\n";
+		std::cerr << "\n";
 	}
 }
 
 Square lSquare(Square sqr) {
 	return sqr / 27 + (sqr / 3) % 3;
+}
+
+SBitboard Smallboard(Bitboard b, Square ls) {
+	SBitboard r = SBitboard(b >> (27 * (ls / 3) + 3 * (ls % 3)));
+	return (r & 7) | ((r >> 6) & 56) | ((r >> 12) & 448);
 }
 
 u8 PopCnt16[1 << 16];
