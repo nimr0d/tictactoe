@@ -3,6 +3,7 @@
 #include <sstream>
 #include <ctime>
 
+#include "base.h"
 #include "board.h"
 #include "search.h"
 #include "time_mgmt.h"
@@ -166,6 +167,7 @@ private:
             std::cerr << "\n";
         }
     }
+
     void printlsc(u8 *lsc) {
         for (Square i = 0; i < 3; ++i) {
             for (Square j = 0; j < 3; ++j) {
@@ -193,9 +195,9 @@ private:
     u8 numFin_;
 };
 
-
 int main() {
     Boards::init();
+    Base::init();  
 
     BotIO bot;
     bot.loop();

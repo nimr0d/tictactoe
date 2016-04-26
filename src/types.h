@@ -13,7 +13,7 @@ typedef signed char i8;
 typedef u8 Square;
 typedef u8 Column;
 typedef u8 Row;
-typedef u32 SBitboard;
+typedef u32 Bitboard;
 
 enum Piece {
 	NONE = 0, P0 = 1, P1 = 2, FR = -1
