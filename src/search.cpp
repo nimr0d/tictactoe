@@ -50,32 +50,27 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 			}
 			bb >>= 2;
 
-			count += wbase[bb] * 24;
+			count += wbase[bb] * 12;
 		}
 
 
 		for (Square t = 0; t < 9; ++t) {
-			Bitboard bb = 0;
-			for (i8 i = 8; i >= 0; --i) {
-				Piece pt = field[LStS[t][i]];
-				if (pt == player) {
-					bb |= 1;
-				} else if (pt == player ^ 3) {
-					bb |= 2;
+			if (macroboard[t] <= 0) {
+				Bitboard bb = 0;
+				for (i8 i = 8; i >= 0; --i) {
+					Piece pt = field[LStS[t][i]];
+					if (pt == player) {
+						bb |= 1;
+					} else if (pt == (player ^ 3)) {
+						bb |= 2;
+					}
+					bb <<= 2;
 				}
-				bb <<= 2;
+				bb >>= 2;
+				count += wbase[bb];
 			}
-			bb >>= 2;
-			count += wbase[bb];
 		}
 
-		for (Square t = 0; t < 9; ++t) {
-			if (macroboard[t] == player) {
-				++count;
-			} else if (macroboard[t] == player) {
-				--count;
-			}
-		}
 		return count;
 	}
 
@@ -104,9 +99,9 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 					}
 					u8 nf = numFin;
 					
-					bool w = ((field[s2[i1]] == player) && 
-						      (field[s2[i1 + 1]] == player) && 
-						      (field[s2[i1 + 2]] == player)) ||
+					bool w = ((field[s2[3 * i1]] == player) && 
+						      (field[s2[3 * i1 + 1]] == player) && 
+						      (field[s2[3 * i1 + 2]] == player)) ||
 							 ((field[s2[j1]] == player) && 
 						      (field[s2[j1 + 3]] == player) && 
 						      (field[s2[j1 + 6]] == player)) ||
@@ -130,9 +125,9 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 				 	if (w) {
 				 		mb[x2] = player;
 
-				 		bool fw = ((mb[i2] == player) && 
-						      	  (mb[i2 + 1] == player) && 
-						          (mb[i2 + 2] == player)) ||
+				 		bool fw = ((mb[3 * i2] == player) && 
+						      	  (mb[3 * i2 + 1] == player) && 
+						          (mb[3 * i2 + 2] == player)) ||
 							      ((mb[j2] == player) && 
 						          (mb[j2 + 3] == player) && 
 						          (mb[j2 + 6] == player)) ||
@@ -172,7 +167,7 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 				 	}
 				 	Square scrap;
 				 	i64 v = -search(scrap, field, mb, lsCount, nf, depth - 1, -beta, -alpha, player == P0 ? P1 : P0);
-				 	/*if (depth >= 8) {
+				 	/*if (depth >= 7) {
 
 				 		std::cerr << int(depth) << ": " << int(s % 9) << ", " << int(s / 9) << ", " << int(scrap) << ", " << v << ", " << player << "\n";
 				 		
@@ -207,7 +202,7 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 Square think(Piece *field, Piece *macroboard, u8 *lsCount, u8 numFin, Piece player, i64 max_time) {
 
 	Square ret;
-	i64 v = search(ret, field, macroboard, lsCount, numFin, 8, -INFTY, INFTY, player);
+	i64 v = search(ret, field, macroboard, lsCount, numFin, 10, -INFTY, INFTY, player);
 	std::cerr << "value: " << v << "\n";
 	return ret;
 }
