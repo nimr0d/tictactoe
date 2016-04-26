@@ -1,6 +1,3 @@
-#ifndef _H_TYPES_
-#define _H_TYPES_
-
 typedef unsigned long long u64;
 typedef long long i64;
 typedef unsigned u32;
@@ -15,12 +12,6 @@ typedef u8 Column;
 typedef u8 Row;
 typedef u32 SBitboard;
 
-enum Piece {
-	NONE = 0, P0 = 1, P1 = 2, FR = -1
-};
-
 #define SQUARE_NONE 81
-#define INFTY 0xfffffff
-#define WIN 0xffffff
-
-#endif
+#define INFTY 0x100000000
+#define WIN 0xffffffff

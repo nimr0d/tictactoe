@@ -3,7 +3,8 @@
 #include <sstream>
 #include <ctime>
 
-#include "board.h"
+#include "bitboard.h"
+#include "s_base.h"
 #include "search.h"
 #include "time_mgmt.h"
 #include "types.h"
@@ -27,17 +28,20 @@ int stringToInt(const std::string &s) {
     return result;
 }
 
-Piece stringToPiece(const std::string &s) {
-    return static_cast<Piece>(stringToInt(s));
-}
-
 class BotIO {
 
 public:
 
     BotIO() {
+    	b_.b0 = Bitboard(0ULL, 0ULL);
+    	b_.b1 = Bitboard(0ULL, 0ULL);
+    	b_.free = ~Bitboard(0ULL, 0ULL);
+    	b_.move = SQUARE_NONE;
+        // field_.resize(81);
+        // macroboard_.resize(9);
 
     }
+
 
     void loop() {
         std::string line;
@@ -53,15 +57,12 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, moveTime(timebank_, timePerMove_, t, 81) + std::time(0));
-        
-        printfield(field_);
-        std::cerr << "\n";
-        printmb(macroboard_);
-        std::cerr << "\n";
-        printlsc(lsCount_);
-        std::cerr << int(numFin_) << "\n";
-
+    	Square s = think(b_, moveTime(timebank_, timePerMove_, t, b_.free.popcount()) + std::time(0));
+    	b_.b0 |= SquareBB[s];
+    	b_.move = s;
+    	updateFree(s, true);
+    	std::cerr << "action:\n";
+    	print(b_);
         return std::pair<int, int>(s % 9, s / 9);
     }
 
@@ -84,6 +85,15 @@ private:
         }
     }
 
+    void updateFree(Square move, bool p0) {
+    	b_.free &= ~SquareBB[move];
+    	Square ls = lSquare(move);
+    	print(Smallboard(b_.b1, ls));
+    	if (EndBase[Smallboard(p0 ? b_.b0 : b_.b1, ls)]) {
+    		b_.free &= ~LSquareBB[ls];
+    	}
+    }
+
     void update(const std::string& player, const std::string& type, const std::string& value) {
         if (player != "game" && player != myName_) {
             return;
@@ -96,28 +106,29 @@ private:
             move_ = stringToInt(value);
         }
         else if (type == "field") {
-            std::vector<std::string> rawValues;
+        	std::vector<std::string> rawValues;
             split(value, ',', rawValues);
-            std::fill(lsCount_, lsCount_ + 9, 0);
-            for (Square i = 0; i < 81; ++i) {
-                Piece p = stringToPiece(rawValues[i]);
-                field_[i] = p;
-                if (p != NONE) {
-                    ++lsCount_[StLS2[i]];
-                }
+            for (Square i = 0; i < rawValues.size(); ++i) {
+            	int s = stringToInt(rawValues[i]);
+            	if (s != 0 && s != botId_) {
+            		Bitboard n_b = b_.b1 | SquareBB[i];
+        			if (n_b != b_.b1) {
+        				b_.b1 = n_b;
+        				b_.move = i;
+        				updateFree(i, false);
+        				break;
+        			}
+            	}
             }
+            std::cerr << "update:\n";
+            print(b_);
         }
         else if (type == "macroboard") {
-            std::vector<std::string> rawValues;
+            /*std::vector<std::string> rawValues;
             split(value, ',', rawValues);
-            numFin_ = 0;
-            for (Square i = 0; i < 9; ++i) {
-                Piece p = stringToPiece(rawValues[i]);
-                macroboard_[i] = p;
-                if (p == P0 || p == P1 || lsCount_[i] >= 9) {
-                    ++numFin_;
-                }
-            }
+            std::vector<int>::iterator choice = (type == "field" ? field_.begin() : macroboard_.begin());
+            std::transform(rawValues.begin(), rawValues.end(), choice, stringToInt);*/
+
         }
         else {
             debug("Unknown update <" + type + ">.");
@@ -138,7 +149,7 @@ private:
             myName_ = value;
         }
         else if (type == "your_botid") {
-            botId_ = stringToPiece(value);
+            botId_ = stringToInt(value);
         }
         else {
             debug("Unknown setting <" + type + ">.");
@@ -149,37 +160,11 @@ private:
         std::cerr << s << std::endl << std::flush;
     }
 
-    void printfield(Piece *field) {
-        for (Square i = 0; i < 9; ++i) {
-            for (Square j = 0; j < 9; ++j) {
-                std::cerr << field[9 * i + j] << " ";
-            }
-            std::cerr << "\n";
-        }
-    }
-
-    void printmb(Piece *mb) {
-        for (Square i = 0; i < 3; ++i) {
-            for (Square j = 0; j < 3; ++j) {
-                std::cerr << mb[3 * i + j] << " ";
-            }
-            std::cerr << "\n";
-        }
-    }
-    void printlsc(u8 *lsc) {
-        for (Square i = 0; i < 3; ++i) {
-            for (Square j = 0; j < 3; ++j) {
-                std::cerr << int(lsc[3 * i + j]) << " ";
-            }
-            std::cerr << "\n";
-        }
-    }
-
 private:
     // static settings
     int timebank_;
     int timePerMove_;
-    Piece botId_;
+    int botId_;
     std::vector<std::string> playerNames_;
     std::string myName_;
 
@@ -187,15 +172,14 @@ private:
     int round_;
     int move_;
 
-    Piece field_[81];
-    Piece macroboard_[9];
-    u8 lsCount_[9];
-    u8 numFin_;
+    // std::vector<int> macroboard_;
+    // std::vector<int> field_;
+    Board b_;
 };
 
-
 int main() {
-    Boards::init();
+	Bitboards::init();
+	SBase::init();
 
     BotIO bot;
     bot.loop();
