@@ -4,6 +4,7 @@
 #include "types.h"
 
 extern i64 wbase[262144];
+extern i64 dbase[262144];
 
 namespace Base {
 void init();
