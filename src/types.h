@@ -19,8 +19,7 @@ enum Piece {
 	NONE = 0, P0 = 1, P1 = 2, FR = -1
 };
 
-#define SQUARE_NONE 81
-#define INFTY 0xfffffff
-#define WIN 0xffffff
+#define INFTY 0xfffffffLL
+#define WIN 0xffffffLL
 
 #endif

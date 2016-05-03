@@ -1,5 +1,5 @@
-#ifndef _EVALUATION_H_
-#define _EVALUATION_H_
+#ifndef _H_EVALUATION_
+#define _H_EVALUATION_
 
 #include "types.h"
 

@@ -26,11 +26,11 @@ void printlsc(u8 *lsc) {
 
 i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player, time_t max_time) {
 
-	if (depth == 0 || numFin >= 9 || time(0) >= max_time) {
+	if (depth == 0 || numFin >= 9) {
 
 		i64 count = 0;
 
-		count += dbase[macroboard] * 24;
+		count += dbase[macroboard] * 4;
 
 		for (Square t = 0; t < 9; ++t) {
 			Bitboard bb = LSquare(field, t);
@@ -167,7 +167,7 @@ i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFi
 Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, time_t max_time) {
 
 	Square ret;
-	i64 v = search(ret, field, macroboard, lsCount, numFin, 10, -INFTY, INFTY, player, max_time);
+	i64 v = search(ret, field, macroboard, lsCount, numFin, 9, -INFTY, INFTY, player, max_time);
 	std::cerr << "value: " << v << "\n";
 	return ret;
 }

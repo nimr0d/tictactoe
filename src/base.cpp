@@ -1,5 +1,7 @@
 #include "base.h"
 
+#include <iostream>
+
 i64 wbase[2][262144];
 i64 dbase[262144];
 
@@ -31,98 +33,88 @@ bool P1winning(Bitboard bb) {
  	return false;
 }
 
+void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
+
+	i64 c0 = 0, c1 = 0;
+
+	for (Square i = 0; i < 3; ++i) {
+
+		Square s = line[i];
+		Piece pt = bb_get(bb, s);
+
+		if (pt == P0) {
+			++c0;
+		} else if (pt == P1) {
+			++c1;
+		}
+	}
+	if (c0 > 0 && c1 == 0) {
+		for (Square i = 0; i < 3; ++i) {
+			Square s = line[i];
+			Piece pt = bb_get(bb, s);
+			if (pt != P0 && pt != P1 && c0 > p0_vals[s]) {
+				p0_vals[s] = c0;
+			}
+		}
+	}
+	if (c0 == 0 && c1 > 0) {
+		for (Square i = 0; i < 3; ++i) {
+			Square s = line[i];
+			Piece pt = bb_get(bb, s);
+			if (pt != P0 && pt != P1 && c1 > p1_vals[s]) {
+				p1_vals[s] = c1;
+			}
+		}
+	}
+}
+
 void Base::init() {
 
 	for (Bitboard b = 0; b < 262144; ++b) {
 
 		i64 count = 0;
 
-		Bitboard bc = b;
-
-		Piece arr[9];
-		for (Square i = 0; i < 9; ++i) {
-			arr[i] = bb_get(b, i);
-		}
+		i64 p0_vals[9] = { 0 };
+		i64 p1_vals[9] = { 0 };
 
 		for (Square i = 0; i < 3; ++i) {
-			i64 c = 0;
-			bool s1 = false, s2 = false;
-
+			Square line[3];
 			for (Square j = 0; j < 3; ++j) {
-				Piece pt = arr[3 * i + j];
-				if (pt == P0) {
-					++c;
-					s1 = true;
-				} else if (pt == P1) {
-					--c;
-					s2 = true;
-				}
+				line[j] = 3 * i + j;
 			}
-			if (!s1 || !s2) {
-				count += c;
-			}
+			fillLine(b, p0_vals, p1_vals, line);
 		}
 
 		for (Square j = 0; j < 3; ++j) {
-			i64 c = 0;
-			bool s1 = false, s2 = false;
-
+			Square line[3];
 			for (Square i = 0; i < 3; ++i) {
-				Piece pt = arr[3 * i + j];
-				if (pt == P0) {
-					++c;
-					s1 = true;
-				} else if (pt == P1) {
-					--c;
-					s2 = true;
-				}
+				line[i] = 3 * i + j;
 			}
-			if (!s1 || !s2) {
-				count += c;
-			}
+			fillLine(b, p0_vals, p1_vals, line);
 		}
 
 		{
-			i64 c = 0;
-			bool s1 = false, s2 = false;
-
+			Square line[3];
 			for (Square d = 0; d < 3; ++d) {
-				Piece pt = arr[4 * d];
-				if (pt == P0) {
-					++c;
-					s1 = true;
-				} else if (pt == P1) {
-					--c;
-					s2 = true;
-				}
-			}
-			if (!s1 || !s2) {
-				count += c;
-			}
+				line[d] = 4 * d;
+			}	
+			fillLine(b, p0_vals, p1_vals, line);
 		}
 
 		{
-			i64 c = 0;
-			bool s1 = false, s2 =false;
-
+			Square line[3];
 			for (Square d = 0; d < 3; ++d) {
-				Piece pt = arr[2 * d + 2];
-				if (pt == P0) {
-					++c;
-					s1 = true;
-				} else if (pt == P1) {
-					--c;
-					s2 = true;
-				}
-			}
-			if (!s1 || !s2) {
-				count += c;
-			}
-		}
+				line[d] = 2 * d + 2;
+			}	
+			fillLine(b, p0_vals, p1_vals, line);
+		}			 			 
 
-		loop: 
+		for (Square s = 0; s < 9; ++s) {
+			count += p0_vals[s] - p1_vals[s];
+		}
 
 		dbase[b] = count;
+
 		wbase[0][b] = P0winning(b);
 		wbase[1][b] = P1winning(b);
 
