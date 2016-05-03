@@ -4,6 +4,7 @@
 #include <iostream>
 #include "board.h"
 #include "base.h"
+#include "evaluation.h"
 
 void printfield(Piece *field) {
     for (Square i = 0; i < 9; ++i) {
@@ -14,14 +15,6 @@ void printfield(Piece *field) {
     }
 }
 
-void printmb(Piece *mb) {
-    for (Square i = 0; i < 3; ++i) {
-        for (Square j = 0; j < 3; ++j) {
-            std::cerr << mb[3 * i + j] << " ";
-        }
-        std::cerr << "\n";
-    }
-}
 void printlsc(u8 *lsc) {
     for (Square i = 0; i < 3; ++i) {
         for (Square j = 0; j < 3; ++j) {
@@ -31,143 +24,20 @@ void printlsc(u8 *lsc) {
     }
 }
 
-i64 eval(i64 *arr) {
-	i64 count = 0;
-
-	for (Square i = 0; i < 3; ++i) {
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
-		for (Square j = 0; j < 3; ++j) {
-
-			i64 pt = arr[3 * i + j];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
-	}
-
-	for (Square j = 0; j < 3; ++j) {
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
-		for (Square i = 0; i < 3; ++i) {
-
-			i64 pt = arr[3 * i + j];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
-	}
-
-
-	{
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
-		for (Square d = 0; d < 3; ++d) {
-
-			i64 pt = arr[4 * d];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
-	}
-
-	{
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
-		for (Square d = 0; d < 3; ++d) {
-
-			i64 pt = arr[2 * d + 2];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
-	}
-
-	loop: 
-
-	return count;
-}
-
-i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player) {
+i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player) {
 
 	if (depth == 0 || numFin >= 9) {
 
 		i64 count = 0;
 
-		/*{
-			Bitboard bb = 0;
-			for (i8 i = 8; i >= 0; --i) {
-				Piece pt = macroboard[i];
-				if (pt == player) {
-					bb |= 1;
-				} else if (pt == (player ^ 3)) {
-					bb |= 2;
-				}
-				bb <<= 2;
-			}
-			bb >>= 2;
-
-			count += wbase[bb] * 24;
-		}*/
+		count += dbase[macroboard] * 24;
 
 
 		i64 arr[9];
 
 
 		for (Square t = 0; t < 9; ++t) {
-			if (macroboard[t] <= 0) {
+			if (bb_get(macroboard, t) <= 0) {
 				Bitboard bb = 0;
 				for (i8 i = 8; i >= 0; --i) {
 					Piece pt = field[LStS[t][i]];
@@ -179,8 +49,8 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 					bb <<= 2;
 				}
 				bb >>= 2;
-				arr[t] = wbase[bb];
-			} else if (macroboard[t] == player) {
+				arr[t] = dbase[bb];
+			} else if (bb_get(macroboard, t) == player) {
 				arr[t] = 20;
 			} else {
 				arr[t] = -20;
@@ -194,7 +64,7 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 	Square s;
 
 	for (Square b = 0; b < 9; ++b) {
-		if (macroboard[b] == FR) {
+		if (bb_get(macroboard, b) == FR) {
 			for (Square c = 0; c < 9; ++c) {
 
 				Square s = LStS[b][c];
@@ -208,11 +78,8 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 					Square *s2 = LStS[x2];
 					Square i1 = x1 / 3, j1 = x1 % 3, i2 = x2 / 3, j2 = x2 % 3;
 
-					Piece mb[9];
-					// std::memcpy(mb, macroboard, 9);
-					for (Square f = 0; f < 9; ++f) {
-						mb[f] = macroboard[f];
-					}
+					Bitboard mb = macroboard;
+					
 					u8 nf = numFin;
 					
 					bool w = ((field[s2[3 * i1]] == player) && 
@@ -233,31 +100,18 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 				 			 );
 
 				 	if ((++lsCount[x2]) >= 9) {
-						mb[x2] = NONE;
+						bb_set(mb, NONE, x2);
 						++nf;
 					} else if (w) {
 						++nf;
 					}
 
 				 	if (w) {
-				 		mb[x2] = player;
 
-				 		bool fw = ((mb[3 * i2] == player) && 
-						      	  (mb[3 * i2 + 1] == player) && 
-						          (mb[3 * i2 + 2] == player)) ||
-							      ((mb[j2] == player) && 
-						          (mb[j2 + 3] == player) && 
-						          (mb[j2 + 6] == player)) ||
-							      ((i2 == j2) && 
-							      (mb[0] == player) && 
-				                  (mb[4] == player) && 
-							      (mb[8] == player)
-							      ) || 
-				 			      ((i2 == 2 - j2) && 
-				 			      (mb[2] == player) && 
-				                  (mb[4] == player) && 
-				 			      (mb[6] == player)
-				 			      );
+						bb_set(mb, player, x2);
+
+						bool fw = wbase[player - 1][mb];
+
 				 		if (fw) {
 				 			ret = s;
 				 			field[s] = NONE;
@@ -267,18 +121,18 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 
 				 	}
 
-				 	if (lsCount[x1] < 9 && mb[x1] != P0 && mb[x1] != P1) {
+				 	if (lsCount[x1] < 9 && bb_get(mb, x1) != P0 && bb_get(mb, x1) != P1) {
 				 		for (Square g = 0; g < 9; ++g) {
-				 			if (mb[g] == FR) {
-				 				mb[g] = NONE;
+				 			if (bb_get(mb, g) == FR) {
+				 				bb_set(mb, NONE, g);
 				 			}
 				 		}
-				 		mb[x1] = FR;
+				 		bb_set(mb, FR, x1);
 
 				 	} else {
 				 		for (Square g = 0; g < 9; ++g) {
-				 			if (mb[g] == NONE && lsCount[g] < 9) {
-				 				mb[g] = FR;
+				 			if (bb_get(mb, g) == NONE && lsCount[g] < 9) {
+				 				bb_set(mb, FR, g);
 				 			}
 				 		}
 				 	}
@@ -316,10 +170,10 @@ i64 search(Square &ret, Piece *field, const Piece *macroboard, u8 *lsCount, u8 n
 	return bv;
 }
 
-Square think(Piece *field, Piece *macroboard, u8 *lsCount, u8 numFin, Piece player, i64 max_time) {
+Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, i64 max_time) {
 
 	Square ret;
-	i64 v = search(ret, field, macroboard, lsCount, numFin, 9, -INFTY, INFTY, player);
+	i64 v = search(ret, field, macroboard, lsCount, numFin, 10, -INFTY, INFTY, player);
 	std::cerr << "value: " << v << "\n";
 	return ret;
 }

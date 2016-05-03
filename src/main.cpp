@@ -58,7 +58,7 @@ private:
         
         printfield(field_);
         std::cerr << "\n";
-        printmb(macroboard_);
+        print(macroboard_);
         std::cerr << "\n";
         printlsc(lsCount_);
         std::cerr << int(numFin_) << "\n";
@@ -114,7 +114,7 @@ private:
             numFin_ = 0;
             for (Square i = 0; i < 9; ++i) {
                 Piece p = stringToPiece(rawValues[i]);
-                macroboard_[i] = p;
+                bb_set(macroboard_, p, i);
                 if (p == P0 || p == P1 || lsCount_[i] >= 9) {
                     ++numFin_;
                 }
@@ -190,7 +190,7 @@ private:
     int move_;
 
     Piece field_[81];
-    Piece macroboard_[9];
+    Bitboard macroboard_;
     u8 lsCount_[9];
     u8 numFin_;
 };
