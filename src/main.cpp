@@ -159,15 +159,6 @@ private:
         }
     }
 
-    void printmb(Piece *mb) {
-        for (Square i = 0; i < 3; ++i) {
-            for (Square j = 0; j < 3; ++j) {
-                std::cerr << mb[3 * i + j] << " ";
-            }
-            std::cerr << "\n";
-        }
-    }
-
     void printlsc(u8 *lsc) {
         for (Square i = 0; i < 3; ++i) {
             for (Square j = 0; j < 3; ++j) {

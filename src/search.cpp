@@ -24,40 +24,49 @@ void printlsc(u8 *lsc) {
     }
 }
 
-i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player) {
+i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player, time_t max_time) {
 
-	if (depth == 0 || numFin >= 9) {
+	if (depth == 0 || numFin >= 9 || time(0) >= max_time) {
 
 		i64 count = 0;
 
 		count += dbase[macroboard] * 24;
 
+		for (Square t = 0; t < 9; ++t) {
+			Bitboard bb = LSquare(field, t);
+			if (!wbase[0][bb] && !wbase[1][bb]) {
+				count += dbase[bb];
+			}
+		}
 
-		i64 arr[9];
+
+		/*i64 arr[9];
 
 
 		for (Square t = 0; t < 9; ++t) {
 			if (bb_get(macroboard, t) <= 0) {
-				Bitboard bb = 0;
-				for (i8 i = 8; i >= 0; --i) {
-					Piece pt = field[LStS[t][i]];
-					if (pt == player) {
-						bb |= 1;
-					} else if (pt == (player ^ 3)) {
-						bb |= 2;
-					}
-					bb <<= 2;
-				}
-				bb >>= 2;
+				Bitboard bb = LSquare(field, t);
 				arr[t] = dbase[bb];
 			} else if (bb_get(macroboard, t) == player) {
 				arr[t] = 20;
 			} else {
 				arr[t] = -20;
 			}
+		}*/
+
+		for (Square b = 0; b < 9; ++b) {
+			if (bb_get(macroboard, b) == FR) {
+				for (Square c = 0; c < 9; ++c) {
+					Square s = LStS[b][c];
+					if (field[s] == NONE) {
+						ret = s;
+					}
+				}
+			}
 		}
 
-		return eval(arr);
+		// return eval(arr);
+		return count * (3 - 2 * player);
 	}
 
 	i64 bv = -INFTY;
@@ -82,22 +91,7 @@ i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFi
 					
 					u8 nf = numFin;
 					
-					bool w = ((field[s2[3 * i1]] == player) && 
-						      (field[s2[3 * i1 + 1]] == player) && 
-						      (field[s2[3 * i1 + 2]] == player)) ||
-							 ((field[s2[j1]] == player) && 
-						      (field[s2[j1 + 3]] == player) && 
-						      (field[s2[j1 + 6]] == player)) ||
-							 ((i1 == j1) && 
-							  (field[s2[0]] == player) && 
-				              (field[s2[4]] == player) && 
-							  (field[s2[8]] == player)
-							 ) || 
-				 			 ((i1 == 2 - j1) && 
-				 			  (field[s2[2]] == player) && 
-				              (field[s2[4]] == player) && 
-				 			  (field[s2[6]] == player)
-				 			 );
+					bool w = wbase[player - 1][LSquare(field, x2)];
 
 				 	if ((++lsCount[x2]) >= 9) {
 						bb_set(mb, NONE, x2);
@@ -137,7 +131,7 @@ i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFi
 				 		}
 				 	}
 				 	Square scrap;
-				 	i64 v = -search(scrap, field, mb, lsCount, nf, depth - 1, -beta, -alpha, player == P0 ? P1 : P0);
+				 	i64 v = -search(scrap, field, mb, lsCount, nf, depth - 1, -beta, -alpha, player == P0 ? P1 : P0, max_time);
 				 	/*if (v == INFTY || v == -INFTY) {
 
 				 		std::cerr << int(depth) << ": " << int(s % 9) << ", " << int(s / 9) << ", " << int(scrap) << ", " << v << ", " << player << "\n";
@@ -170,10 +164,10 @@ i64 search(Square &ret, Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFi
 	return bv;
 }
 
-Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, i64 max_time) {
+Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, time_t max_time) {
 
 	Square ret;
-	i64 v = search(ret, field, macroboard, lsCount, numFin, 10, -INFTY, INFTY, player);
+	i64 v = search(ret, field, macroboard, lsCount, numFin, 10, -INFTY, INFTY, player, max_time);
 	std::cerr << "value: " << v << "\n";
 	return ret;
 }

@@ -29,6 +29,8 @@ void init();
 Piece bb_get(Bitboard b, i32 i);
 void bb_set(Bitboard &b, Piece p, i32 i);
 
+Bitboard LSquare(Piece *field, Square i);
+
 void print(Bitboard b);
 
 #endif

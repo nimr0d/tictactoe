@@ -72,6 +72,14 @@ void bb_set(Bitboard &b, Piece p, i32 i) {
 	b = (b & ~(3 << (i << 1))) | ((p + 1) << (i << 1));
 }
 
+Bitboard LSquare(Piece *field, Square i) {
+	Square *ls = LStS[i];
+	return (field[ls[0]] + 1) | ((field[ls[1]] + 1) << 2) | ((field[ls[2]] + 1) << 4)
+			| ((field[ls[3]] + 1) << 6) | ((field[ls[4]] + 1) << 8)
+			| ((field[ls[5]] + 1) << 10) | ((field[ls[6]] + 1) << 12)
+			| ((field[ls[7]] + 1) << 14) | ((field[ls[8]] + 1) << 16);
+}
+
 void print(Bitboard b) {
 	for (Square i = 0; i < 3; ++i) {
 	    for (Square j = 0; j < 3; ++j) {
