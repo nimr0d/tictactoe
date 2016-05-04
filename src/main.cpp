@@ -54,12 +54,7 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-
-        if (move_ == 1) {
-            return std::pair<int, int>(4, 4);
-        }
-
-    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, t);
+    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, t, move_);
         
         printfield(field_);
 
@@ -180,8 +175,8 @@ private:
     std::string myName_;
 
     // dynamic settings
-    int round_;
-    int move_;
+    u32 round_;
+    u32 move_;
 
     Piece field_[81];
     Bitboard macroboard_;

@@ -42,17 +42,6 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 			}
 		}*/
 
-		/*i64 count = 0;
-
-		count += dbase[macroboard] * 9;
-
-		for (Square t = 0; t < 9; ++t) {
-			Bitboard bb = LSquare(field, t);
-			if (!wbase[0][bb] && !wbase[1][bb]) {
-				count += dbase[bb];
-			}
-		}*/
-
 		return eval(field, macroboard, lsCount) * (3 - 2 * player);
 
 	}
@@ -139,9 +128,16 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 	return bv;
 }
 
-Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, i64 time) {
+Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, i64 time, u32 move) {
 	u32 depth = 9;
-	if (time > 3500) {
+
+	if (move == 1) {
+		return 40;
+	} else if (time < 800) {
+		depth = 6;
+	} else if (time < 2000) {
+		depth = 8;
+	} else if (move >= 32 && time >= 3500) {
 		depth = 10;
 	}
 
