@@ -1,7 +1,7 @@
 #include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <sstream>
-#include <ctime>
 
 #include "base.h"
 #include "board.h"
@@ -152,15 +152,6 @@ private:
         for (Square i = 0; i < 9; ++i) {
             for (Square j = 0; j < 9; ++j) {
                 std::cerr << field[9 * i + j] << " ";
-            }
-            std::cerr << "\n";
-        }
-    }
-
-    void printlsc(u8 *lsc) {
-        for (Square i = 0; i < 3; ++i) {
-            for (Square j = 0; j < 3; ++j) {
-                std::cerr << int(lsc[3 * i + j]) << " ";
             }
             std::cerr << "\n";
         }

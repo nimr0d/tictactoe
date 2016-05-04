@@ -1,7 +1,5 @@
 #include "base.h"
 
-#include <iostream>
-
 i64 wbase[2][262144];
 i64 dbase[262144];
 

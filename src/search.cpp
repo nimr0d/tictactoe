@@ -2,27 +2,10 @@
 
 #include <cstring>
 #include <iostream>
-#include "board.h"
+
 #include "base.h"
+#include "board.h"
 #include "evaluation.h"
-
-void printfield(Piece *field) {
-    for (Square i = 0; i < 9; ++i) {
-        for (Square j = 0; j < 9; ++j) {
-            std::cerr << field[9 * i + j] << " ";
-        }
-        std::cerr << "\n";
-    }
-}
-
-void printlsc(u8 *lsc) {
-    for (Square i = 0; i < 3; ++i) {
-        for (Square j = 0; j < 3; ++j) {
-            std::cerr << int(lsc[3 * i + j]) << " ";
-        }
-        std::cerr << "\n";
-    }
-}
 
 i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player, bool ret) {
 
