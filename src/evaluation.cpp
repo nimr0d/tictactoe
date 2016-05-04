@@ -1,110 +1,83 @@
 #include "evaluation.h"
 
-i64 eval(i64 *arr) {
+#include "base.h"
+#include "board.h"
+
+i64 lineVal(i64 *vals, Bitboard mb, Square *line) {
+
+	i64 count = 0;
+
+	bool w0 = true, w1 = true;
+
+	for (Square i = 0; i < 3; ++i) {
+
+		Square s = line[i];
+		Piece pt = bb_get(mb, s);
+
+		if (pt == NONE) {
+			w0 = false;
+			w1 = false;
+		} else if (pt == P0) {
+			w1 = false;
+			count += 14;
+		} else if (pt == P1) {
+			w0 = false;
+			count -= 14;
+		} else {
+			count += vals[s];
+		}
+	}
+
+	return (w0 || w1) ? count : 0;
+}
+
+i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
+
+	i64 vals[9];
+
+	for (Square t = 0; t < 9; ++t) {
+		vals[t] = dbase[LSquare(field, t)];
+	}
+
+	for (Square s = 0; s < 9; ++s) {
+		if (bb_get(macroboard, s) == NONE && lsCount[s] < 9) {
+			bb_set(macroboard, FR, s);
+		} 
+	}
+
 	i64 count = 0;
 
 	for (Square i = 0; i < 3; ++i) {
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
+		Square line[3];
 		for (Square j = 0; j < 3; ++j) {
-
-			i64 pt = arr[3 * i + j];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
+			line[j] = 3 * i + j;
 		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
+		count += lineVal(vals, macroboard, line);
 	}
 
 	for (Square j = 0; j < 3; ++j) {
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
+		Square line[3];
 		for (Square i = 0; i < 3; ++i) {
-
-			i64 pt = arr[3 * i + j];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
+			line[i] = 3 * i + j;
 		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
-	}
-
-
-	{
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
-		for (Square d = 0; d < 3; ++d) {
-
-			i64 pt = arr[4 * d];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
+		count += lineVal(vals, macroboard, line);
 	}
 
 	{
-		i64 c = 0;
-		i64 h1 = 0, h2 = 0;
-
+		Square line[3];
 		for (Square d = 0; d < 3; ++d) {
-
-			i64 pt = arr[2 * d + 2];
-
-			if (pt > 0) {
-				++c;
-				h1 = pt;
-			} else if (pt < 0) {
-				--c;
-				h2 = pt;
-			}
-
-			count += pt;
-		}
-		if (c > 0) {
-			count += h2;
-		} else if (c < 0) {
-			count += h1;
-		}
+			line[d] = 4 * d;
+		}	
+		count += lineVal(vals, macroboard, line);
 	}
 
-	loop: 
+	{
+		Square line[3];
+		for (Square d = 0; d < 3; ++d) {
+			line[d] = 2 * d + 2;
+		}	
+		count += lineVal(vals, macroboard, line);
+	}			 			 
 
 	return count;
 }

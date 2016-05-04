@@ -54,14 +54,14 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, moveTime(timebank_, timePerMove_, t, 81) + std::time(0));
+
+        if (move_ == 1) {
+            return std::pair<int, int>(4, 4);
+        }
+
+    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, t);
         
         printfield(field_);
-        std::cerr << "\n";
-        print(macroboard_);
-        std::cerr << "\n";
-        printlsc(lsCount_);
-        std::cerr << int(numFin_) << "\n";
 
         return std::pair<int, int>(s % 9, s / 9);
     }
@@ -100,11 +100,14 @@ private:
             std::vector<std::string> rawValues;
             split(value, ',', rawValues);
             std::fill(lsCount_, lsCount_ + 9, 0);
+            numFree_ = 0;
             for (Square i = 0; i < 81; ++i) {
                 Piece p = stringToPiece(rawValues[i]);
                 field_[i] = p;
                 if (p != NONE) {
                     ++lsCount_[StLS2[i]];
+                } else {
+                    ++numFree_;
                 }
             }
         }
@@ -184,6 +187,7 @@ private:
     Bitboard macroboard_;
     u8 lsCount_[9];
     u8 numFin_;
+    u8 numFree_;
 };
 
 int main() {

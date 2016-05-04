@@ -52,7 +52,7 @@ void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
 		for (Square i = 0; i < 3; ++i) {
 			Square s = line[i];
 			Piece pt = bb_get(bb, s);
-			if (pt != P0 && pt != P1 && c0 > p0_vals[s]) {
+			if (c0 > p0_vals[s]) {
 				p0_vals[s] = c0;
 			}
 		}
@@ -61,7 +61,7 @@ void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
 		for (Square i = 0; i < 3; ++i) {
 			Square s = line[i];
 			Piece pt = bb_get(bb, s);
-			if (pt != P0 && pt != P1 && c1 > p1_vals[s]) {
+			if (c1 > p1_vals[s]) {
 				p1_vals[s] = c1;
 			}
 		}

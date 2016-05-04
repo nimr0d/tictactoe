@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-i64 eval(i64 *arr);
+i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount);
 
 #endif
