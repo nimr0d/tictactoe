@@ -19,10 +19,10 @@ i64 lineVal(i64 *vals, Bitboard mb, Square *line) {
 			w1 = false;
 		} else if (pt == P0) {
 			w1 = false;
-			count += 14;
+			count += 16;
 		} else if (pt == P1) {
 			w0 = false;
-			count -= 14;
+			count -= 16;
 		} else {
 			count += vals[s];
 		}

@@ -28,13 +28,13 @@ update game round 2
 
 update game move 3
 
-update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,0,0,0,0,0,-1
+update game macroboard 0,0,-1,0,0,0,0,0,0
 
 action move 10000
 
-Output from your bot: "place_move 8 8"
+Output from your bot: "place_move 8 0"
 
 Round 3
 
@@ -42,13 +42,13 @@ update game round 3
 
 update game move 5
 
-update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1
+update game field 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,-1,0,0,0,0,0
+update game macroboard 0,0,0,0,0,0,0,-1,0
 
-action move 8610
+action move 9988
 
-Output from your bot: "place_move 2 4"
+Output from your bot: "place_move 5 7"
 
 Round 4
 
@@ -56,13 +56,13 @@ update game round 4
 
 update game move 7
 
-update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1
+update game field 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,-1,0,0,0,0,0,0,0
+update game macroboard -1,0,0,0,0,0,0,0,0
 
-action move 8439
+action move 9534
 
-Output from your bot: "place_move 5 1"
+Output from your bot: "place_move 2 1"
 
 Round 5
 
@@ -70,13 +70,13 @@ update game round 5
 
 update game move 9
 
-update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1
+update game field 0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,0,0,0,-1,0,0
+update game macroboard 0,0,0,-1,0,0,0,0,0
 
-action move 8552
+action move 9525
 
-Output from your bot: "place_move 1 8"
+Output from your bot: "place_move 2 4"
 
 Round 6
 
@@ -84,13 +84,13 @@ update game round 6
 
 update game move 11
 
-update game field 0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,0,0,0,0,-1,0
+update game macroboard 0,0,0,0,0,2,-1,0,0
 
-action move 8236
+action move 9624
 
-Output from your bot: "place_move 4 6"
+Output from your bot: "place_move 1 6"
 
 Round 7
 
@@ -98,13 +98,13 @@ update game round 7
 
 update game move 13
 
-update game field 0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,2,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard -1,0,0,0,0,0,0,0,0
+update game macroboard 0,-1,0,0,0,2,0,0,0
 
-action move 8118
+action move 9736
 
-Output from your bot: "place_move 1 0"
+Output from your bot: "place_move 3 1"
 
 Round 8
 
@@ -112,13 +112,13 @@ update game round 8
 
 update game move 15
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,0,2,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,0,0,0,-1,0,0
+update game macroboard 0,0,0,0,0,2,0,0,-1
 
-action move 8297
+action move 9908
 
-Output from your bot: "place_move 0 7"
+Output from your bot: "place_move 6 6"
 
 Round 9
 
@@ -126,13 +126,13 @@ update game round 9
 
 update game move 17
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,2,0,0,0,0,2,2,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,0,2,0,0,0,2,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,0,0,0,0,0,-1,0,0
+update game macroboard 0,0,0,0,0,2,0,-1,0
 
-action move 8361
+action move 10000
 
-Output from your bot: "place_move 1 6"
+Output from your bot: "place_move 3 7"
 
 Round 10
 
@@ -140,13 +140,13 @@ update game round 10
 
 update game move 19
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,1,0,0,0,0,2,0,0,0,0,2,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
 
-update game macroboard 0,2,0,-1,0,0,0,0,0
+update game macroboard 0,0,0,0,0,2,0,-1,0
 
-action move 8569
+action move 10000
 
-Output from your bot: "place_move 0 4"
+Output from your bot: "place_move 4 8"
 
 Round 11
 
@@ -154,13 +154,13 @@ update game round 11
 
 update game move 21
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,0,0,0,2,0,0,0,0,2,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,0,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,2,1,0,0,0,0
 
-update game macroboard 0,2,-1,0,0,0,0,0,0
+update game macroboard 0,0,0,0,0,2,-1,0,0
 
-action move 8116
+action move 10000
 
-Output from your bot: "place_move 8 1"
+Output from your bot: "place_move 0 6"
 
 Round 12
 
@@ -168,13 +168,13 @@ update game round 12
 
 update game move 23
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,0,0,2,2,0,0,0,0,2,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,2,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,2,1,0,0,0,0
 
-update game macroboard 0,2,0,0,0,-1,0,0,0
+update game macroboard 0,-1,0,0,0,2,0,0,0
 
-action move 7859
+action move 10000
 
-Output from your bot: "place_move 6 4"
+Output from your bot: "place_move 4 2"
 
 Round 13
 
@@ -182,13 +182,13 @@ update game round 13
 
 update game move 25
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,1,0,2,2,2,0,0,0,2,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,2,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,0,0,1,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,0,0,0,0,0,1,2,1,0,0,0,0,0,0,2,1,0,0,0,0
 
-update game macroboard 0,2,0,0,0,0,0,-1,0
+update game macroboard 0,0,0,0,-1,2,0,0,0
 
-action move 8007
+action move 10000
 
-Output from your bot: "place_move 3 7"
+Output from your bot: "place_move 3 3"
 
 Round 14
 
@@ -196,13 +196,13 @@ update game round 14
 
 update game move 27
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,1,0,2,2,2,2,0,0,2,2,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,2,0,0,0,1,0,0,2,0,0,0,1
+update game field 0,2,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,0,0,0,0,0,1,2,1,0,0,0,0,0,0,2,1,0,0,0,0
 
-update game macroboard 0,2,0,2,0,0,0,0,-1
+update game macroboard 0,0,0,0,0,2,0,0,-1
 
-action move 8018
+action move 10000
 
-Output from your bot: "place_move 8 7"
+Output from your bot: "place_move 8 8"
 
 Round 15
 
@@ -210,13 +210,13 @@ update game round 15
 
 update game move 29
 
-update game field 0,1,0,2,0,0,0,0,0,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,1,0,2,2,2,2,0,0,2,2,0,2,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 0,2,0,0,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,2,0,0,0,0,1,2,1,0,0,0,0,0,0,2,1,0,0,0,1
 
-update game macroboard 0,2,0,2,0,0,0,0,-1
+update game macroboard 0,-1,0,0,0,2,0,0,0
 
-action move 7879
+action move 9894
 
-Output from your bot: "place_move 8 6"
+Output from your bot: "place_move 3 0"
 
 Round 16
 
@@ -224,13 +224,13 @@ update game round 16
 
 update game move 31
 
-update game field 0,1,0,2,0,0,0,0,2,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,1,0,2,2,2,2,0,0,2,2,0,2,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,0,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,0,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,2,0,0,0,0,1,2,1,0,0,0,0,0,0,2,1,0,0,0,1
 
-update game macroboard 0,2,-1,2,0,0,0,0,1
+update game macroboard -1,0,0,0,0,2,0,0,0
 
-action move 7568
+action move 9725
 
-Output from your bot: "place_move 6 0"
+Output from your bot: "place_move 0 1"
 
 Round 17
 
@@ -238,13 +238,13 @@ update game round 17
 
 update game move 33
 
-update game field 0,1,2,2,0,0,1,0,2,0,0,0,2,0,1,0,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,0,1,0,2,2,2,2,0,0,2,2,0,2,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,2,0,0,0,0,1,2,1,0,0,0,0,0,0,2,1,0,0,0,1
 
-update game macroboard 0,2,-1,2,0,0,0,0,1
+update game macroboard 0,0,0,2,0,2,-1,0,0
 
-action move 7310
+action move 9988
 
-Output from your bot: "place_move 6 1"
+Output from your bot: "place_move 0 8"
 
 Round 18
 
@@ -252,13 +252,13 @@ update game round 18
 
 update game move 35
 
-update game field 0,1,2,2,0,0,1,0,2,0,0,0,2,0,1,1,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,2,0,1,0,1,0,1,2,1,0,2,2,2,2,0,0,2,2,0,2,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,0,2,0,0,1,1,0,0,0,0,1,2,0,0,0,0,1,2,1,0,0,0,1,0,2,2,1,0,0,0,1
 
-update game macroboard 0,2,0,2,0,-1,0,0,1
+update game macroboard 0,0,0,2,0,2,0,0,-1
 
-action move 6811
+action move 9557
 
-Output from your bot: "place_move 6 3"
+Output from your bot: "place_move 6 8"
 
 Round 19
 
@@ -266,13 +266,13 @@ update game round 19
 
 update game move 37
 
-update game field 2,1,2,2,0,0,1,0,2,0,0,0,2,0,1,1,0,1,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,1,2,0,1,0,1,0,1,2,1,0,2,2,2,2,0,0,2,2,0,2,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,0,2,0,0,1,1,2,0,0,0,1,2,0,0,0,0,1,2,1,0,0,0,1,0,2,2,1,0,1,0,1
 
-update game macroboard -1,2,0,2,0,0,0,0,1
+update game macroboard 0,0,-1,2,0,2,0,0,0
 
-action move 7027
+action move 9440
 
-Output from your bot: "place_move 0 2"
+Output from your bot: "place_move 6 2"
 
 Round 20
 
@@ -280,13 +280,13 @@ update game round 20
 
 update game move 39
 
-update game field 2,1,2,2,0,0,1,0,2,0,0,0,2,0,1,1,0,1,1,0,0,2,0,0,0,0,0,0,0,2,0,0,0,1,2,0,1,0,1,0,1,2,1,0,2,2,2,2,0,0,2,2,0,2,2,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,1,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,0,2,0,0,1,1,2,0,0,0,1,2,0,0,0,2,1,2,1,0,0,0,1,0,2,2,1,0,1,0,1
 
-update game macroboard -1,2,0,2,0,0,0,0,1
+update game macroboard -1,-1,-1,2,-1,2,2,-1,-1
 
-action move 7105
+action move 9247
 
-Output from your bot: "place_move 0 1"
+Output from your bot: "place_move 5 5"
 
 Round 21
 
@@ -294,10 +294,66 @@ update game round 21
 
 update game move 41
 
-update game field 2,1,2,2,0,0,1,0,2,1,0,0,2,0,1,1,0,1,1,0,0,2,0,0,0,0,0,0,0,2,0,0,0,1,2,2,1,0,1,0,1,2,1,0,2,2,2,2,0,0,2,2,0,2,2,1,0,0,1,0,0,0,1,1,0,0,1,0,0,2,0,1,0,1,0,0,2,0,0,0,1
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,1,2,0,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,1,2,0,0,1,1,2,0,0,0,1,2,2,0,0,2,1,2,1,0,0,0,1,0,2,2,1,0,1,0,1
 
-update game macroboard 0,2,-1,2,0,2,0,0,1
+update game macroboard 0,0,-1,2,1,2,2,0,0
 
-action move 7190
+action move 8975
 
-Output from your bot: "place_move 7 0"
+Output from your bot: "place_move 8 2"
+
+Round 22
+
+update game round 22
+
+update game move 43
+
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,1,2,1,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,1,2,0,0,1,1,2,0,0,0,1,2,2,0,0,2,1,2,1,0,2,0,1,0,2,2,1,0,1,0,1
+
+update game macroboard -1,-1,-1,2,1,2,2,-1,-1
+
+action move 9281
+
+Output from your bot: "place_move 5 8"
+
+Round 23
+
+update game round 23
+
+update game move 45
+
+update game field 2,2,0,1,2,0,0,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,1,2,1,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,1,2,0,0,1,1,2,0,0,0,1,2,2,0,0,2,1,2,1,0,2,0,1,0,2,2,1,1,1,2,1
+
+update game macroboard 0,0,0,2,1,2,2,-1,2
+
+action move 9533
+
+Output from your bot: "place_move 5 6"
+
+Round 24
+
+update game round 24
+
+update game move 47
+
+update game field 2,2,0,1,2,0,2,0,1,1,0,1,1,0,0,0,0,0,0,2,2,0,1,0,1,2,1,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,1,2,0,0,1,1,2,0,0,1,1,2,2,0,0,2,1,2,1,0,2,0,1,0,2,2,1,1,1,2,1
+
+update game macroboard -1,0,0,2,1,2,2,1,2
+
+action move 10000
+
+Output from your bot: "place_move 2 0"
+
+Round 25
+
+update game round 25
+
+update game move 49
+
+update game field 2,2,1,1,2,0,2,0,1,1,0,1,1,0,0,0,2,0,0,2,2,0,1,0,1,2,1,0,0,0,1,0,2,2,0,0,0,0,1,0,1,0,2,0,0,2,2,2,0,0,1,2,0,0,1,1,2,0,0,1,1,2,2,0,0,2,1,2,1,0,2,0,1,0,2,2,1,1,1,2,1
+
+update game macroboard -1,-1,-1,2,1,2,2,1,2
+
+action move 10000
+
+Output from your bot: "place_move 3 2"

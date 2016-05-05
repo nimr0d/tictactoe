@@ -120,7 +120,7 @@ Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece pl
 		depth = 6;
 	} else if (time < 2000) {
 		depth = 8;
-	} else if (move >= 32 && time >= 3500) {
+	} else if (move >= 30 && time >= 3500) {
 		depth = 10;
 	}
 
