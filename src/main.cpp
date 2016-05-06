@@ -1,12 +1,10 @@
 #include <algorithm>
-#include <ctime>
 #include <iostream>
 #include <sstream>
 
 #include "base.h"
 #include "board.h"
 #include "search.h"
-#include "time_mgmt.h"
 #include "types.h"
 
 
@@ -54,7 +52,7 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-    	Square s = think(field_, macroboard_, lsCount_, numFin_, botId_, t, move_);
+    	Square s = think(field_, macroboard_, lsCount_, numFin_, numFree_, botId_, t, timePerMove_, move_);
         
         printfield(field_);
 
@@ -115,6 +113,7 @@ private:
                 bb_set(macroboard_, p, i);
                 if (p == P0 || p == P1 || lsCount_[i] >= 9) {
                     ++numFin_;
+                    numFree_ -= 9 - lsCount_[i];
                 }
             }
         }
@@ -151,7 +150,23 @@ private:
     void printfield(Piece *field) {
         for (Square i = 0; i < 9; ++i) {
             for (Square j = 0; j < 9; ++j) {
-                std::cerr << field[9 * i + j] << " ";
+
+                Piece p = field[9 * i + j];
+                char c;
+                if (p == 0) {
+                    c = '_';
+                } else if (p == 1) {
+                    c = 'X';
+                } else {
+                    c = 'O';
+                }
+                std::cerr << c << " ";
+                if (j % 3 == 2) {
+                    std::cerr << " ";
+                }
+            }
+            if (i % 3 == 2) {
+                std::cerr << "\n";
             }
             std::cerr << "\n";
         }
