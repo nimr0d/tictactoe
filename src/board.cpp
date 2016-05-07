@@ -20,6 +20,7 @@ Bitboard ColumnBB[3];
 Bitboard RowBB[3];		
 Bitboard DiagBB[2];
 
+Bitboard flipMask = 0x15555;
 
 void Boards::init() {
 

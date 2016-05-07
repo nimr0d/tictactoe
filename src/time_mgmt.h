@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-i64 moveTime(i64 timebank, i64 timePerMove, i64 time, u8 numFree);
+i64 moveTime(i64 time, i64 timePerMove, u8 numFree);
 
 #endif

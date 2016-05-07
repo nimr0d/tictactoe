@@ -22,6 +22,8 @@ extern Bitboard ColumnBB[3];
 extern Bitboard RowBB[3];		
 extern Bitboard DiagBB[2];
 
+extern Bitboard flipMask;
+
 namespace Boards {
 void init();
 }

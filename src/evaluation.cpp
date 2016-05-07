@@ -3,9 +3,9 @@
 #include "base.h"
 #include "board.h"
 
-i64 lineVal(i64 *vals, Bitboard mb, Square *line) {
+i64 lineVal(i64 *p0vals, i64 *p1vals, Bitboard mb, Square *line) {
 
-	i64 count = 0;
+	i64 p0count = 0, p1count = 0;
 
 	bool w0 = true, w1 = true;
 
@@ -19,24 +19,30 @@ i64 lineVal(i64 *vals, Bitboard mb, Square *line) {
 			w1 = false;
 		} else if (pt == P0) {
 			w1 = false;
-			count += 16;
+			p0count += 16;
 		} else if (pt == P1) {
 			w0 = false;
-			count -= 16;
+			p1count += 16;
 		} else {
-			count += vals[s];
+			p0count += p0vals[s];
+			p1count += p1vals[s];
 		}
 	}
 
+	i64 count = p0count - p1count;
+	if (w0) count += p0count;
+	if (w1) count -= p1count;
 	return (w0 || w1) ? count : 0;
 }
-
 i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
 
-	i64 vals[9];
+	i64 p0vals[9], p1vals[9];
+
 
 	for (Square t = 0; t < 9; ++t) {
-		vals[t] = dbase[LSquare(field, t)];
+		Bitboard ls = LSquare(field, t);
+		p0vals[t] = dbase[ls];
+		p1vals[t] = dbase[ls ^ flipMask];
 	}
 
 	for (Square s = 0; s < 9; ++s) {
@@ -52,7 +58,7 @@ i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
 		for (Square j = 0; j < 3; ++j) {
 			line[j] = 3 * i + j;
 		}
-		count += lineVal(vals, macroboard, line);
+		count += lineVal(p0vals, p1vals, macroboard, line);
 	}
 
 	for (Square j = 0; j < 3; ++j) {
@@ -60,7 +66,7 @@ i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
 		for (Square i = 0; i < 3; ++i) {
 			line[i] = 3 * i + j;
 		}
-		count += lineVal(vals, macroboard, line);
+		count += lineVal(p0vals, p1vals, macroboard, line);
 	}
 
 	{
@@ -68,7 +74,7 @@ i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
 		for (Square d = 0; d < 3; ++d) {
 			line[d] = 4 * d;
 		}	
-		count += lineVal(vals, macroboard, line);
+		count += lineVal(p0vals, p1vals, macroboard, line);
 	}
 
 	{
@@ -76,7 +82,7 @@ i64 eval(Piece *field, Bitboard macroboard, u8 *lsCount) {
 		for (Square d = 0; d < 3; ++d) {
 			line[d] = 2 * d + 2;
 		}	
-		count += lineVal(vals, macroboard, line);
+		count += lineVal(p0vals, p1vals, macroboard, line);
 	}			 			 
 
 	return count;

@@ -1,30 +1,31 @@
 #include "search.h"
 
+#include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <iostream>
+#include <vector>
 
 #include "base.h"
 #include "board.h"
 #include "evaluation.h"
+#include "time_mgmt.h"
 
-i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, i64 alpha, i64 beta, Piece player, bool ret) {
+struct Position {
+	Bitboard mb;
+	u8 numFin;
+	Square move;
+	i64 eval;
+	i32 operator<(const Position &other) {
+		return eval > other.eval;
+	}
+};
+
+i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, 
+	i64 alpha, i64 beta, Piece player, std::chrono::steady_clock::time_point end_time,
+	bool ret) {
 
 	if (depth == 0 || numFin >= 9) {
-
-		/*if (ret) {
-			// Return some legal square.
-			for (Square b = 0; b < 9; ++b) {
-				if (bb_get(macroboard, b) == FR) {
-					for (Square c = 0; c < 9; ++c) {
-						Square s = LStS[b][c];
-						if (field[s] == NONE) {
-							return s;
-						}
-					}
-				}
-			}
-		}*/
-
 		return eval(field, macroboard, lsCount) * (3 - 2 * player);
 
 	}
@@ -32,10 +33,11 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 	i64 bv = -INFTY;
 	Square bs;
 
+	std::vector<Position> pos;
+
 	for (Square b = 0; b < 9; ++b) {
 		if (bb_get(macroboard, b) == FR) {
 			for (Square c = 0; c < 9; ++c) {
-
 				Square s = LStS[b][c];
 				if (field[s] == NONE) {
 
@@ -87,20 +89,47 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 				 			}
 				 		}
 				 	}
-				 	i64 v = -search(field, mb, lsCount, nf, depth - 1, -beta, -alpha, player == P0 ? P1 : P0, false);
 
+				 	Position p;
+				 	p.move = s;
+				 	p.mb = mb;
+				 	p.numFin = nf;
+				 	p.eval = (3 - 2 * player) * eval(field, mb, lsCount);
+
+				 	pos.push_back(p);
+
+				 	// i64 v = -search(field, mb, lsCount, nf, depth - 1, -beta, -alpha, Piece(player ^ 3), end_time, false);
 					field[s] = NONE;
 					--lsCount[x2];
 
-					if (v > bv) {
+					/*if (v > bv) {
 				 		bv = v;
 				 		bs = s;
 				 	}
 				 	if (v > alpha) alpha = v;
-				 	if (alpha >= beta) goto finish;
+				 	if (alpha >= beta || std::chrono::steady_clock::now() > end_time) goto finish;*/
 				}
 			}
 		}
+	}
+
+	std::sort(pos.begin(), pos.end());
+
+	for (Position p : pos) {
+
+		Square move = p.move;
+		field[move] = player;
+		++lsCount[StLS2[move]];
+		i64 v = -search(field, p.mb, lsCount, p.numFin, depth - 1, -beta, -alpha, Piece(player ^ 3), end_time, false);
+		field[move] = NONE;
+		--lsCount[StLS2[move]];
+
+		if (v > bv) {
+			bv = v;
+	 		bs = move;
+		}
+		if (v > alpha) alpha = v;
+		if (alpha >= beta || std::chrono::steady_clock::now() > end_time) goto finish;
 	}
 
 	finish:
@@ -111,19 +140,22 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 	return bv;
 }
 
-Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, Piece player, i64 time, u32 move) {
-	u32 depth = 9;
+Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u8 numFree,
+		Piece player, i64 time, i64 timePerMove, u32 move) {
 
+	u32 depth = 9;
 	if (move == 1) {
 		return 40;
 	} else if (time < 800) {
 		depth = 6;
 	} else if (time < 2000) {
 		depth = 8;
-	} else if (move >= 30 && time >= 3500) {
+	} else if (time >= 3500) {
 		depth = 10;
 	}
 
-	return search(field, macroboard, lsCount, numFin, depth, -INFTY, INFTY, player, true);
+	auto end_time = std::chrono::steady_clock::now() + std::chrono::milliseconds(moveTime(time, timePerMove, numFree));
+
+	return search(field, macroboard, lsCount, numFin, depth, -INFTY, INFTY, player, end_time, true);
 }
 
