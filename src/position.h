@@ -7,10 +7,11 @@
 class Position {
 public:
 	Position() = default;
+	Piece get_board(SSquare s) {
 	Piece get_piece(Square s);
 	Piece get_piece(SSquare i, SSquare j);
-	void do_move(Square s);
-	void do_move(SSquare i, SSquare j);
+	SSquare do_move(Square s);
+	SSquare do_move(SSquare i, SSquare j);
 	void undo_move(SSquare i, SSquare j, SSquare prev);
 	GameState state();
 private:

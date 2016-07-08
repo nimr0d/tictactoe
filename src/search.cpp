@@ -34,64 +34,12 @@ i64 search(Position *pos, u32 depth, i64 alpha, i64 beta,
 	std::vector<EvalInfo> pos;
 
 	for (Square b = 0; b < 9; ++b) {
-		if (bb_get(macroboard, b) == NONE) {
+		if (pos->get_board(b) == NONE) {
 			for (Square c = 0; c < 9; ++c) {
-				Square s = LStS[b][c];
-				if (field[s] == NONE) {
+				if (get_piece(b, c) == NONE) {
+					pos->do_move(b, c);
 
-					field[s] = player;
-
-					Square x1 = StLS1[s], x2 = StLS2[s];
-
-					Bitboard mb = macroboard;
-					
-					u8 nf = numFin;
-					
-					bool w = wbase[player - 1][LSquare(field, x2)];
-
-				 	if ((++lsCount[x2]) >= 9) {
-						bb_set(mb, NONE, x2);
-						++nf;
-					} else if (w) {
-						++nf;
-					}
-
-				 	if (w) {
-
-						bb_set(mb, player, x2);
-
-						bool fw = wbase[player - 1][mb];
-
-				 		if (fw) {
-				 			field[s] = NONE;
-				 			--lsCount[x2];
-				 			bv = WIN;
-				 			bs = s;
-				 			goto finish;
-				 		}
-
-				 	}
-
-				 	if (lsCount[x1] < 9 && bb_get(mb, x1) != P0 && bb_get(mb, x1) != P1) {
-				 		for (Square g = 0; g < 9; ++g) {
-				 			if (bb_get(mb, g) == FR) {
-				 				bb_set(mb, NONE, g);
-				 			}
-				 		}
-				 		bb_set(mb, FR, x1);
-
-				 	} else {
-				 		for (Square g = 0; g < 9; ++g) {
-				 			if (bb_get(mb, g) == NONE && lsCount[g] < 9) {
-				 				bb_set(mb, FR, g);
-				 			}
-				 		}
-				 	}
-
-				 	Position p;
-				 	p.move = s;
-				 	p.mb = mb;
-				 	p.numFin = nf;
+				 	EvalInfo e;
 				 	// p.eval = (3 - 2 * player) * eval(field, mb, lsCount);
 
 				 	pos.push_back(p);

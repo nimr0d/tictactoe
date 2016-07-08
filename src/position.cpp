@@ -1,15 +1,19 @@
 #include "position.h"
 
+Piece Position::get_board(SSquare s) {
+	return bb_get(macroboard_, s);
+}
 Piece Position::get_piece(Square s) {
 	return bb_get(microboards_[contLS[s]], posLS[s]);
 }
 Piece Position::get_piece(SSquare i, SSquare j) {
 	return bb_get(microboards_[i], j);
 }
-void Position::do_move(Square s) {
-	do_move(contLS[s], posLS[s]);
+SSquare Position::do_move(Square s) {
+	return do_move(contLS[s], posLS[s]);
 }
-void Position::do_move(SSquare i, SSquare j) {
+SSquare Position::do_move(SSquare i, SSquare j) {
+	const SSquare ret = lsFree_;
 	// Place piece
 	bb_set(microboards_[i], player_, j);
 	// Check for microboard win
@@ -36,6 +40,7 @@ void Position::do_move(SSquare i, SSquare j) {
 		lsFree_ = SQ_NONE;
 	}
 	player_ ^= 3;
+	return ret;
 }
 
 void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
