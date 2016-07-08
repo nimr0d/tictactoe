@@ -11,21 +11,19 @@
 #include "evaluation.h"
 #include "time_mgmt.h"
 
-struct Position {
-	Bitboard mb;
-	u8 numFin;
+struct EvalInfo {
 	Square move;
 	i64 eval;
-	i32 operator<(const Position &other) {
-		return eval > other.eval;
+	bool operator<(const EvalInfo &other) {
+		return eval >= other.eval;
 	}
 };
 
-i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth, 
-	i64 alpha, i64 beta, Piece player, std::chrono::steady_clock::time_point end_time,
-	bool ret) {
+i64 search(Position *pos, u32 depth, i64 alpha, i64 beta,
+           std::chrono::steady_clock::time_point end_time, bool ret) {
 
-	if (depth == 0 || numFin >= 9) {
+	if (depth == 0 || pos->state() != ON) {
+
 		return eval(field, macroboard, lsCount) * (3 - 2 * player);
 
 	}
@@ -33,10 +31,10 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 	i64 bv = -INFTY;
 	Square bs;
 
-	std::vector<Position> pos;
+	std::vector<EvalInfo> pos;
 
 	for (Square b = 0; b < 9; ++b) {
-		if (bb_get(macroboard, b) == FR) {
+		if (bb_get(macroboard, b) == NONE) {
 			for (Square c = 0; c < 9; ++c) {
 				Square s = LStS[b][c];
 				if (field[s] == NONE) {
@@ -94,7 +92,7 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 				 	p.move = s;
 				 	p.mb = mb;
 				 	p.numFin = nf;
-				 	p.eval = (3 - 2 * player) * eval(field, mb, lsCount);
+				 	// p.eval = (3 - 2 * player) * eval(field, mb, lsCount);
 
 				 	pos.push_back(p);
 
@@ -113,7 +111,7 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 		}
 	}
 
-	std::sort(pos.begin(), pos.end());
+	// std::sort(pos.begin(), pos.end());
 
 	for (Position p : pos) {
 
@@ -129,7 +127,10 @@ i64 search(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u32 depth,
 	 		bs = move;
 		}
 		if (v > alpha) alpha = v;
-		if (alpha >= beta || std::chrono::steady_clock::now() > end_time) goto finish;
+		if (alpha >= beta) goto finish;
+		/*if (std::chrono::steady_clock::now() > end_time) {
+			std::cerr << "Error: depth " << depth << "\n";
+		}*/
 	}
 
 	finish:
@@ -148,10 +149,10 @@ Square think(Piece *field, Bitboard macroboard, u8 *lsCount, u8 numFin, u8 numFr
 		return 40;
 	} else if (time < 800) {
 		depth = 6;
-	} else if (time < 2000) {
+	} else if (time < 1500) {
 		depth = 8;
 	} else if (time >= 3500) {
-		depth = 10;
+		depth = 9;
 	}
 
 	auto end_time = std::chrono::steady_clock::now() + std::chrono::milliseconds(moveTime(time, timePerMove, numFree));

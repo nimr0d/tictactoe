@@ -4,6 +4,7 @@
 
 #include "base.h"
 #include "board.h"
+#include "position.h"
 #include "search.h"
 #include "types.h"
 
@@ -92,30 +93,14 @@ private:
         else if (type == "field") {
             std::vector<std::string> rawValues;
             split(value, ',', rawValues);
-            std::fill(lsCount_, lsCount_ + 9, 0);
-            numFree_ = 0;
             for (Square i = 0; i < 81; ++i) {
-                Piece p = stringToPiece(rawValues[i]);
-                field_[i] = p;
-                if (p != NONE) {
-                    ++lsCount_[StLS2[i]];
-                } else {
-                    ++numFree_;
-                }
+                Square ct = contLS[s], mg = posLS[s];
+                if (rawValues[i] != position->get_piece(i)) {
+                    position->do_move(i);
+                } 
             }
         }
         else if (type == "macroboard") {
-            std::vector<std::string> rawValues;
-            split(value, ',', rawValues);
-            numFin_ = 0;
-            for (Square i = 0; i < 9; ++i) {
-                Piece p = stringToPiece(rawValues[i]);
-                bb_set(macroboard_, p, i);
-                if (p == P0 || p == P1 || lsCount_[i] >= 9) {
-                    ++numFin_;
-                    numFree_ -= 9 - lsCount_[i];
-                }
-            }
         }
         else {
             debug("Unknown update <" + type + ">.");
@@ -184,11 +169,7 @@ private:
     u32 round_;
     u32 move_;
 
-    Piece field_[81];
-    Bitboard macroboard_;
-    u8 lsCount_[9];
-    u8 numFin_;
-    u8 numFree_;
+    Position *pos;
 };
 
 int main() {
