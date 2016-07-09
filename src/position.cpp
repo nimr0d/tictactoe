@@ -2,6 +2,8 @@
 
 #include "base.h"
 
+#include <iostream>
+
 Piece Position::get_board(SSquare s) const {
 	return bb_get(macroboard_, s);
 }
@@ -18,6 +20,7 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	const SSquare ret = lsFree_;
 	// Place piece
 	bb_set(microboards_[i], player_, j);
+	std::cerr << microboards_[i] << "\n";
 	// Check for microboard win
 	const bool w = wbase[player_][microboards_[i]];
 	++lsCount_[i];
@@ -41,7 +44,7 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	} else {
 		lsFree_ = SQ_NONE;
 	}
-	player_ ^= Piece(3);
+	player_ = Piece(player_ ^ 3);
 	return ret;
 }
 
@@ -55,9 +58,34 @@ void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
 		bb_clear(macroboard_, i);
 		--numFin_;	
 	}
-	player_ ^= Piece(3);
+	player_ = Piece(player_ ^ 3);
 }
 
 GameState Position::state() const {
 	return state_;
+}
+
+void Position::print() const {
+	for (Square i = 0; i < 9; ++i) {
+	    for (Square j = 0; j < 9; ++j) {
+
+	        Piece p = get_piece(9 * i + j);
+	        char c;
+	        if (p == 0) {
+	            c = '_';
+	        } else if (p == 1) {
+	            c = 'X';
+	        } else {
+	            c = 'O';
+	        }
+	        std::cerr << c << " ";
+	        if (j % 3 == 2) {
+	            std::cerr << " ";
+	        }
+	    }
+	    if (i % 3 == 2) {
+	        std::cerr << "\n";
+	    }
+	    std::cerr << "\n";
+	}
 }

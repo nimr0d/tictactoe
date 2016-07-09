@@ -5,12 +5,12 @@ i64 dbase[262144];
 
 bool P0winning(Bitboard bb) {	
 	for (Square i = 0; i < 3; ++i) {
-		if ((bb & ColumnBB[i]) == P0ColumnBB[i] || (bb & RowBB[i]) == P0RowBB[i]) {
+		if ((bb & ColumnBB[i]) == RColumnBB[i] || (bb & RowBB[i]) == RRowBB[i]) {
 			return true;
 		}
 	}
 
-	if ((bb & DiagBB[0]) == P0DiagBB[0] || (bb & DiagBB[1]) == P0DiagBB[1]) {
+	if ((bb & DiagBB[0]) == RDiagBB[0] || (bb & DiagBB[1]) == RDiagBB[1]) {
 		return true;
 	}
 
@@ -19,12 +19,12 @@ bool P0winning(Bitboard bb) {
 
 bool P1winning(Bitboard bb) {	
 	for (Square i = 0; i < 3; ++i) {
-		if ((bb & ColumnBB[i]) == ColumnBB[i] || (bb & RowBB[i]) == RowBB[i]) {
+		if ((bb & ColumnBB[i]) == LColumnBB[i] || (bb & RowBB[i]) == LRowBB[i]) {
 			return true;
 		}
 	}
 
-	if ((bb & DiagBB[0]) == DiagBB[0] || (bb & DiagBB[1]) == DiagBB[1]) {
+	if ((bb & DiagBB[0]) == LDiagBB[0] || (bb & DiagBB[1]) == LDiagBB[1]) {
 		return true;
 	}
 

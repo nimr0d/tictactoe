@@ -7,15 +7,15 @@ extern Square LStS[9][9];
 extern SSquare posLS[81];
 extern SSquare cntLS[81];
 
-extern Bitboard DSquareBB[9];		
-extern Bitboard DColumnBB[3];		
-extern Bitboard DRowBB[3];		
-extern Bitboard DDiagBB[2];
+extern Bitboard RSquareBB[9];		
+extern Bitboard RColumnBB[3];		
+extern Bitboard RRowBB[3];		
+extern Bitboard RDiagBB[2];
 
-extern Bitboard P0SquareBB[9];		
-extern Bitboard P0ColumnBB[3];		
-extern Bitboard P0RowBB[3];		
-extern Bitboard P0DiagBB[2];
+extern Bitboard LSquareBB[9];		
+extern Bitboard LColumnBB[3];		
+extern Bitboard LRowBB[3];		
+extern Bitboard LDiagBB[2];
 
 extern Bitboard SquareBB[9];		
 extern Bitboard ColumnBB[3];		

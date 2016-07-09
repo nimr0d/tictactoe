@@ -2,7 +2,7 @@
 #include <iostream>
 
 Square LStS[9][9];
-SSquare contLS[81];
+SSquare cntLS[81];
 SSquare posLS[81];
 
 Bitboard RSquareBB[9];		
@@ -61,16 +61,16 @@ void Boards::init() {
 
 	for (Square i = 0; i < 81; ++i) {
 		posLS[i] = 3 * ((i / 9) % 3) + i % 3;
-		contLS[i] = 3 * (i / 27) + (i / 3) % 3;
+		cntLS[i] = 3 * (i / 27) + (i / 3) % 3;
 	}
 }
 
 Piece bb_get(Bitboard b, i32 i) {
-	return static_cast<Piece>(i32((b >> (i << 1)) & 3) - 1);
+	return static_cast<Piece>(i32((b >> (i << 1)) & 3));
 }
 
 void bb_set(Bitboard &b, Piece p, i32 i) {
-	b = (b & ~SquareBB[i]) | ((p + 1) << (i << 1));
+	b = (b & ~SquareBB[i]) | (p << (i << 1));
 }
 
 void bb_clear(Bitboard &b, i32 i) {

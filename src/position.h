@@ -14,13 +14,14 @@ public:
 	SSquare do_move(SSquare i, SSquare j);
 	void undo_move(SSquare i, SSquare j, SSquare prev);
 	GameState state() const;
+	void print() const;
 private:
 	Bitboard microboards_[SSQ_NB];
 	Bitboard macroboard_;
 	u8 lsCount_[SSQ_NB];
 	u8 numFin_;
-	SSquare lsFree_;
-	Piece player_;
+	SSquare lsFree_ = SQ_NONE;
+	Piece player_ = P0;
 	GameState state_;
 };
 

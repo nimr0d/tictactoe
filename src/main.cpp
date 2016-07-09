@@ -24,7 +24,7 @@ int stringToInt(const std::string &s) {
     std::istringstream ss(s);
     int result;
     ss >> result;
-    return result;
+    return result == -1 ? 3 : result;
 }
 
 Piece stringToPiece(const std::string &s) {
@@ -35,7 +35,7 @@ class BotIO {
 
 public:
 
-    BotIO() {
+    BotIO() : position_(new Position()){
 
     }
 
@@ -55,7 +55,7 @@ private:
     std::pair<int, int> action(const std::string &type, int t) {
     	Square s = think(position_, t, timePerMove_, move_);
         
-        // printfield(field_);
+        // position_->print();
 
         return std::pair<int, int>(s % 9, s / 9);
     }
@@ -97,6 +97,7 @@ private:
                 Square ct = cntLS[i], mg = posLS[i];
                 if (stringToPiece(rawValues[i]) != position_->get_piece(ct, mg)) {
                     position_->do_move(ct, mg);
+                    break;
                 } 
             }
         }
@@ -130,31 +131,6 @@ private:
 
     void debug(const std::string &s) const {
         std::cerr << s << std::endl << std::flush;
-    }
-
-    void printfield(Piece *field) {
-        for (Square i = 0; i < 9; ++i) {
-            for (Square j = 0; j < 9; ++j) {
-
-                Piece p = field[9 * i + j];
-                char c;
-                if (p == 0) {
-                    c = '_';
-                } else if (p == 1) {
-                    c = 'X';
-                } else {
-                    c = 'O';
-                }
-                std::cerr << c << " ";
-                if (j % 3 == 2) {
-                    std::cerr << " ";
-                }
-            }
-            if (i % 3 == 2) {
-                std::cerr << "\n";
-            }
-            std::cerr << "\n";
-        }
     }
 
 private:
