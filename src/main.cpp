@@ -1,13 +1,13 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #include "base.h"
 #include "board.h"
 #include "position.h"
 #include "search.h"
 #include "types.h"
-
 
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
@@ -53,9 +53,9 @@ public:
 private:
 
     std::pair<int, int> action(const std::string &type, int t) {
-    	Square s = think(field_, macroboard_, lsCount_, numFin_, numFree_, botId_, t, timePerMove_, move_);
+    	Square s = think(position_, t, timePerMove_, move_);
         
-        printfield(field_);
+        // printfield(field_);
 
         return std::pair<int, int>(s % 9, s / 9);
     }
@@ -94,9 +94,9 @@ private:
             std::vector<std::string> rawValues;
             split(value, ',', rawValues);
             for (Square i = 0; i < 81; ++i) {
-                Square ct = contLS[s], mg = posLS[s];
-                if (rawValues[i] != position->get_piece(i)) {
-                    position->do_move(i);
+                Square ct = cntLS[i], mg = posLS[i];
+                if (stringToPiece(rawValues[i]) != position_->get_piece(ct, mg)) {
+                    position_->do_move(ct, mg);
                 } 
             }
         }
@@ -128,7 +128,7 @@ private:
         }
     }
 
-    void debug(const std::string &s) const{
+    void debug(const std::string &s) const {
         std::cerr << s << std::endl << std::flush;
     }
 
@@ -169,7 +169,7 @@ private:
     u32 round_;
     u32 move_;
 
-    Position *pos;
+    Position *position_;
 };
 
 int main() {

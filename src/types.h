@@ -13,18 +13,19 @@ typedef signed char i8;
 
 typedef u32 Bitboard;
 
-enum Square {
-	SQ_0, SQ_NB = 81, SQ_NONE = 82 
-};
-enum SSquare {
-	SSQ_0, SSQ_NB = 9, SSQ_NONE = 10
-}
-enum Column {
-	COL_0, COL_NB = 9, COL_NONE = 10 
-};
-enum Row {
-	ROW_0, ROW_NB = 9, ROW_NONE = 10 
-};
+typedef u32 Square;
+typedef u8 SSquare;
+typedef u8 Column;
+typedef u8 Row;
+
+#define SQ_NB 81
+#define SQ_NONE 82
+#define SSQ_NB 9
+#define SSQ_NONE 10
+#define COL_NB 9
+#define COL_NONE 10
+#define ROW_NB 9
+#define ROW_NONE 10
 
 enum Piece {
 	NONE, P0, P1, NA

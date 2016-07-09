@@ -1,30 +1,32 @@
 #include "position.h"
 
-Piece Position::get_board(SSquare s) {
+#include "base.h"
+
+Piece Position::get_board(SSquare s) const {
 	return bb_get(macroboard_, s);
 }
-Piece Position::get_piece(Square s) {
-	return bb_get(microboards_[contLS[s]], posLS[s]);
+Piece Position::get_piece(Square s) const {
+	return bb_get(microboards_[cntLS[s]], posLS[s]);
 }
-Piece Position::get_piece(SSquare i, SSquare j) {
+Piece Position::get_piece(SSquare i, SSquare j) const {
 	return bb_get(microboards_[i], j);
 }
 SSquare Position::do_move(Square s) {
-	return do_move(contLS[s], posLS[s]);
+	return do_move(cntLS[s], posLS[s]);
 }
 SSquare Position::do_move(SSquare i, SSquare j) {
 	const SSquare ret = lsFree_;
 	// Place piece
 	bb_set(microboards_[i], player_, j);
 	// Check for microboard win
-	bool w = wbase[player_][microboards_[i]];
+	const bool w = wbase[player_][microboards_[i]];
 	++lsCount_[i];
 	if (w) {
 		bb_set(macroboard_, player_, i);
 		++numFin_;
 		// Check for win
 		if (wbase[player_][macroboard_]) {
-			state_ = player_;
+			state_ = GameState(player_);
 		}
 	} else if (lsCount_[i] >= 9) {
 		bb_set(macroboard_, NA, i);
@@ -39,7 +41,7 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	} else {
 		lsFree_ = SQ_NONE;
 	}
-	player_ ^= 3;
+	player_ ^= Piece(3);
 	return ret;
 }
 
@@ -50,8 +52,12 @@ void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
 	state_ = ON;
 	lsFree_ = prev;
 	if (bb_get(macroboard_, i) != NONE) {
-		bb_clear(macroboard__, i);
+		bb_clear(macroboard_, i);
 		--numFin_;	
 	}
-	player_ ^= 3;
+	player_ ^= Piece(3);
+}
+
+GameState Position::state() const {
+	return state_;
 }

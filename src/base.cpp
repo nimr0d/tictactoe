@@ -1,7 +1,7 @@
 #include "base.h"
 
 i64 wbase[2][262144];
-i64 dbase[262144];
+i64 dbase[262144];	
 
 bool P0winning(Bitboard bb) {	
 	for (Square i = 0; i < 3; ++i) {
