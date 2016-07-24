@@ -2,8 +2,7 @@
 #include <iostream>
 
 Square LStS[9][9];
-SSquare cntLS[81];
-SSquare posLS[81];
+SSquare StLS[81][2];
 
 Bitboard RSquareBB[9];		
 Bitboard RColumnBB[3];		
@@ -60,8 +59,8 @@ void Boards::init() {
 	}
 
 	for (Square i = 0; i < 81; ++i) {
-		posLS[i] = 3 * ((i / 9) % 3) + i % 3;
-		cntLS[i] = 3 * (i / 27) + (i / 3) % 3;
+		StLS[i][0] = 3 * (i / 27) + (i / 3) % 3;
+		StLS[i][1] = 3 * ((i / 9) % 3) + i % 3;
 	}
 }
 
@@ -86,7 +85,7 @@ Bitboard LSquare(Piece *field, Square i) {
 			| ((field[ls[7]] + 1) << 14) | ((field[ls[8]] + 1) << 16);
 }
 
-void print(Bitboard b) {
+void Bitboards::print(Bitboard b) {
 	for (Square i = 0; i < 3; ++i) {
 	    for (Square j = 0; j < 3; ++j) {
 	        std::cerr << bb_get(b, 3 * i + j) << " ";

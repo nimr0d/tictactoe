@@ -4,8 +4,7 @@
 #include "types.h"
 
 extern Square LStS[9][9];
-extern SSquare posLS[81];
-extern SSquare cntLS[81];
+extern SSquare StLS[81][2];
 
 extern Bitboard RSquareBB[9];		
 extern Bitboard RColumnBB[3];		
@@ -25,7 +24,9 @@ extern Bitboard DiagBB[2];
 extern Bitboard flipMask;
 
 namespace Boards {
+
 void init();
+
 }
 
 Piece bb_get(Bitboard b, i32 i);
@@ -34,6 +35,9 @@ void bb_clear(Bitboard &b, i32 i);
 
 Bitboard LSquare(Piece *field, Square i);
 
+namespace Bitboards {
+
 void print(Bitboard b);
 
+}
 #endif

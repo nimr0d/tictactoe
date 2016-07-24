@@ -35,7 +35,7 @@ class BotIO {
 
 public:
 
-    BotIO() : position_(new Position()){
+    BotIO() : position_(new Position()) {
 
     }
 
@@ -94,7 +94,7 @@ private:
             std::vector<std::string> rawValues;
             split(value, ',', rawValues);
             for (Square i = 0; i < 81; ++i) {
-                Square ct = cntLS[i], mg = posLS[i];
+                Square ct = StLS[i][0], mg = StLS[i][1];
                 if (stringToPiece(rawValues[i]) != position_->get_piece(ct, mg)) {
                     position_->do_move(ct, mg);
                     break;

@@ -1,34 +1,34 @@
 #include "position.h"
 
-#include "base.h"
-
+#include <cstring>
 #include <iostream>
+
+#include "base.h"
 
 Piece Position::get_board(SSquare s) const {
 	return bb_get(macroboard_, s);
 }
 Piece Position::get_piece(Square s) const {
-	return bb_get(microboards_[cntLS[s]], posLS[s]);
+	return bb_get(microboards_[StLS[s][0]], StLS[s][1]);
 }
 Piece Position::get_piece(SSquare i, SSquare j) const {
 	return bb_get(microboards_[i], j);
 }
 SSquare Position::do_move(Square s) {
-	return do_move(cntLS[s], posLS[s]);
+	return do_move(StLS[s][0], StLS[s][1]);
 }
 SSquare Position::do_move(SSquare i, SSquare j) {
 	const SSquare ret = lsFree_;
 	// Place piece
 	bb_set(microboards_[i], player_, j);
-	std::cerr << microboards_[i] << "\n";
 	// Check for microboard win
-	const bool w = wbase[player_][microboards_[i]];
+	const bool w = wbase[player_ - 1][microboards_[i]];
 	++lsCount_[i];
 	if (w) {
 		bb_set(macroboard_, player_, i);
 		++numFin_;
 		// Check for win
-		if (wbase[player_][macroboard_]) {
+		if (wbase[player_ - 1][macroboard_]) {
 			state_ = GameState(player_);
 		}
 	} else if (lsCount_[i] >= 9) {
@@ -61,6 +61,16 @@ void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
 	player_ = Piece(player_ ^ 3);
 }
 
+void Position::clear() {
+	std::memset(microboards_, 0, SSQ_NB * 4);
+	macroboard_ = 0;
+	std::memset(lsCount_, 0, SSQ_NB);
+	numFin_ = 0;
+	lsFree_ = SQ_NONE;
+	player_ = P0;
+	state_ = ON;
+}
+
 GameState Position::state() const {
 	return state_;
 }
@@ -88,4 +98,12 @@ void Position::print() const {
 	    }
 	    std::cerr << "\n";
 	}
+	Bitboards::print(macroboard_);
+	for (u8 lsc : lsCount_) {
+		std::cerr << int(lsc) << "\n";
+	}
+	std::cerr << "Numfin: " << int(numFin_) << "\n";
+	std::cerr << "Free square " << int(lsFree_) << "\n";
+	std::cerr << "Player " << player_ << "\n";
+	std::cerr << "State " << state_ << "\n";
 }
