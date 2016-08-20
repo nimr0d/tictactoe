@@ -21,7 +21,7 @@ extern Bitboard ColumnBB[3];
 extern Bitboard RowBB[3];		
 extern Bitboard DiagBB[2];
 
-extern Bitboard flipMask;
+const Bitboard flipMask = 0x15555;
 
 namespace Boards {
 
@@ -32,8 +32,6 @@ void init();
 Piece bb_get(Bitboard b, i32 i);
 void bb_set(Bitboard &b, Piece p, i32 i);
 void bb_clear(Bitboard &b, i32 i);
-
-Bitboard LSquare(Piece *field, Square i);
 
 namespace Bitboards {
 

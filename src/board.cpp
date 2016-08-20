@@ -19,8 +19,6 @@ Bitboard ColumnBB[3];
 Bitboard RowBB[3];		
 Bitboard DiagBB[2];
 
-Bitboard flipMask = 0x15555;
-
 void Boards::init() {
 
 	for (Square i = 0; i < 9; ++i) {
@@ -65,7 +63,7 @@ void Boards::init() {
 }
 
 Piece bb_get(Bitboard b, i32 i) {
-	return static_cast<Piece>(i32((b >> (i << 1)) & 3));
+	return static_cast<Piece>((b >> (i << 1)) & 3);
 }
 
 void bb_set(Bitboard &b, Piece p, i32 i) {
@@ -74,15 +72,6 @@ void bb_set(Bitboard &b, Piece p, i32 i) {
 
 void bb_clear(Bitboard &b, i32 i) {
 	b &= ~SquareBB[i];
-}
-
-
-Bitboard LSquare(Piece *field, Square i) {
-	Square *ls = LStS[i];
-	return (field[ls[0]] + 1) | ((field[ls[1]] + 1) << 2) | ((field[ls[2]] + 1) << 4)
-			| ((field[ls[3]] + 1) << 6) | ((field[ls[4]] + 1) << 8)
-			| ((field[ls[5]] + 1) << 10) | ((field[ls[6]] + 1) << 12)
-			| ((field[ls[7]] + 1) << 14) | ((field[ls[8]] + 1) << 16);
 }
 
 void Bitboards::print(Bitboard b) {

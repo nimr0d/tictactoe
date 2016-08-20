@@ -9,11 +9,9 @@ bool P0winning(Bitboard bb) {
 			return true;
 		}
 	}
-
 	if ((bb & DiagBB[0]) == RDiagBB[0] || (bb & DiagBB[1]) == RDiagBB[1]) {
 		return true;
 	}
-
  	return false;
 }
 
@@ -23,23 +21,17 @@ bool P1winning(Bitboard bb) {
 			return true;
 		}
 	}
-
 	if ((bb & DiagBB[0]) == LDiagBB[0] || (bb & DiagBB[1]) == LDiagBB[1]) {
 		return true;
 	}
-
  	return false;
 }
 
 void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
-
 	i64 c0 = 0, c1 = 0;
-
 	for (Square i = 0; i < 3; ++i) {
-
-		Square s = line[i];
+		const Square s = line[i];
 		Piece pt = bb_get(bb, s);
-
 		if (pt == P0) {
 			++c0;
 		} else if (pt == P1) {
@@ -48,7 +40,7 @@ void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
 	}
 	if (c0 > 0 && c1 == 0) {
 		for (Square i = 0; i < 3; ++i) {
-			Square s = line[i];
+			const Square s = line[i];
 			Piece pt = bb_get(bb, s);
 			if (c0 > p0_vals[s] && pt == P0) {
 				p0_vals[s] = c0;
@@ -57,7 +49,7 @@ void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
 	}
 	if (c0 == 0 && c1 > 0) {
 		for (Square i = 0; i < 3; ++i) {
-			Square s = line[i];
+			const Square s = line[i];
 			Piece pt = bb_get(bb, s);
 			if (c1 > p1_vals[s] && pt == P1) {
 				p1_vals[s] = c1;
@@ -67,9 +59,7 @@ void fillLine(Bitboard bb, i64 *p0_vals, i64 *p1_vals, Square *line) {
 }
 
 void Base::init() {
-
 	for (Bitboard b = 0; b < 262144; ++b) {
-
 		i64 count = 0;
 
 		i64 p0_vals[9] = { 0 };
@@ -82,7 +72,6 @@ void Base::init() {
 			}
 			fillLine(b, p0_vals, p1_vals, line);
 		}
-
 		for (Square j = 0; j < 3; ++j) {
 			Square line[3];
 			for (Square i = 0; i < 3; ++i) {
@@ -90,7 +79,6 @@ void Base::init() {
 			}
 			fillLine(b, p0_vals, p1_vals, line);
 		}
-
 		{
 			Square line[3];
 			for (Square d = 0; d < 3; ++d) {
@@ -98,7 +86,6 @@ void Base::init() {
 			}	
 			fillLine(b, p0_vals, p1_vals, line);
 		}
-
 		{
 			Square line[3];
 			for (Square d = 0; d < 3; ++d) {
@@ -106,7 +93,6 @@ void Base::init() {
 			}	
 			fillLine(b, p0_vals, p1_vals, line);
 		}			 			 
-
 		for (Square s = 0; s < 9; ++s) {
 			count += p0_vals[s]/* - p1_vals[s]*/;
 		}
@@ -115,7 +101,5 @@ void Base::init() {
 
 		wbase[0][b] = P0winning(b);
 		wbase[1][b] = P1winning(b);
-
 	}
-
 }

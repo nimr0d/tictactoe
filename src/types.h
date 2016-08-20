@@ -1,15 +1,16 @@
 #ifndef _H_TYPES_
 #define _H_TYPES_
 
-typedef unsigned long long u64;
-typedef long long i64;
-typedef unsigned u32;
-typedef int i32;
-typedef unsigned short u16;
-typedef short i16;
-typedef unsigned char u8;
-typedef signed char i8;
+#include <cstdint>
 
+typedef uint64_t u64;
+typedef int64_t i64;
+typedef uint32_t u32;
+typedef int32_t i32;
+typedef uint16_t u16;
+typedef int16_t i16;
+typedef uint8_t u8;
+typedef int8_t i8;
 
 typedef u32 Bitboard;
 

@@ -19,7 +19,6 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     return elems;
 }
 
-
 int stringToInt(const std::string &s) {
     std::istringstream ss(s);
     int result;
@@ -54,9 +53,6 @@ private:
 
     std::pair<int, int> action(const std::string &type, int t) {
     	Square s = think(position_, t, timePerMove_, move_);
-        
-        // position_->print();
-
         return std::pair<int, int>(s % 9, s / 9);
     }
 

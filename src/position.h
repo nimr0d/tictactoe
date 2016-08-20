@@ -7,21 +7,26 @@
 class Position {
 public:
 	Position() = default;
-	Piece get_board(SSquare s) const;
-	Piece get_piece(Square s) const;
-	Piece get_piece(SSquare i, SSquare j) const;
+	Bitboard board(SSquare s) const;
+	Bitboard macroboard() const;
+	Piece lpiece(SSquare s) const;
+	Piece piece(Square s) const;
+	Piece piece(SSquare i, SSquare j) const;
 	SSquare do_move(Square s);
 	SSquare do_move(SSquare i, SSquare j);
 	void undo_move(SSquare i, SSquare j, SSquare prev);
+	i32 moves() const;
 	void clear();
 	GameState state() const;
+	Piece player() const;
 	void print() const;
 private:
 	Bitboard microboards_[SSQ_NB];
 	Bitboard macroboard_ = 0;
-	u8 lsCount_[SSQ_NB];
-	u8 numFin_ = 0;
-	SSquare lsFree_ = SQ_NONE;
+	i32 lsCount_[SSQ_NB];
+	SSquare lsForced_ = SQ_NONE;
+	i32 free_ = SQ_NB;
+	i32 moves_ = SQ_NB;
 	Piece player_ = P0;
 	GameState state_ = ON;
 };
