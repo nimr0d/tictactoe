@@ -12,10 +12,10 @@
 #include "time_mgmt.h"
 
 struct EvalMove {
-	Square move;
+	SSquare i, j;
 	i64 eval;
-	EvalMove(Square move, i64 eval) : move(move), eval(eval) {}
-	bool operator<(const EvalMove &other) {
+	EvalMove(SSquare i, SSquare j, i64 eval) : i(i), j(j), eval(eval) {}
+	bool operator<(const EvalMove &other) const {
 		return eval > other.eval;
 	}
 };
@@ -35,18 +35,15 @@ i64 qsearch(Position *pos, i64 alpha, i64 beta) {
 		if (pos->lpiece(b) == NONE) {
 			Bitboard nb = pos->board(b);
 			for (SSquare c = 0; c < SSQ_NB; ++c) {
-				if (
-				    pos->piece(b, c) == NONE
-				    && wbase[pos->player() - 1][nb | (1 << c)]
-				    ) {
+				if (pos->piece(b, c) == NONE
+				    && wbase[pos->player() - 1][nb | (1 << c)]) {
 					SSquare prev = pos->do_move(b, c);
 					if (pos->state() == (pos->player() ^ 3)) {
-						pos->undo_move(prev);
+						pos->undo_move(b, c, prev);
 						return player_sign * WIN;
 					}
-					EvalMove e(LStS[b][c], pos->state() == NA ? 0 : player_sign * eval(pos));
-					moves.push_back(e);
-					pos->undo_move(prev);
+					moves.emplace_back(b, c, pos->state() == DRAW ? 0 : player_sign * eval(pos));
+					pos->undo_move(b, c, prev);
 				}
 			}
 		}
@@ -54,14 +51,14 @@ i64 qsearch(Position *pos, i64 alpha, i64 beta) {
 	// Go through moves from best to last, with alphabeta pruning.
 	std::stable_sort(moves.begin(), moves.end());
 	for (EvalMove m : moves) {
-		SSquare prev = pos->do_move(m.move);
+		SSquare prev = pos->do_move(m.i, m.j);
 		i64 v = -qsearch(pos, -beta, -alpha);
-		pos->undo_move(prev);
-		if (val >= beta) {
+		pos->undo_move(m.i, m.j, prev);
+		if (v >= beta) {
 			return beta;
 		}
-		if (val > alpha) {
-			alpha = val;
+		if (v > alpha) {
+			alpha = v;
 		}
 	}
 	return alpha;
@@ -80,12 +77,11 @@ i64 search(Position *pos, u32 depth, i64 alpha, i64 beta) {
 				if (pos->piece(b, c) == NONE) {
 					SSquare prev = pos->do_move(b, c);
 					if (pos->state() == (pos->player() ^ 3)) {
-						pos->undo_move(prev);
+						pos->undo_move(b, c, prev);
 						return player_sign * WIN;
 					}
-					EvalMove e(LStS[b][c], pos->state() == NA ? 0 : player_sign * eval(pos));
-					moves.push_back(e);
-					pos->undo_move(prev);
+					moves.emplace_back(b, c, pos->state() == DRAW ? 0 : player_sign * eval(pos));
+					pos->undo_move(b, c, prev);
 				}
 			}
 		}
@@ -93,14 +89,14 @@ i64 search(Position *pos, u32 depth, i64 alpha, i64 beta) {
 	// Go through moves from best to last, with alphabeta pruning.
 	std::stable_sort(moves.begin(), moves.end());
 	for (EvalMove m : moves) {
-		SSquare prev = pos->do_move(m.move);
+		SSquare prev = pos->do_move(m.i, m.j);
 		i64 v = -search(pos, depth - 1, -beta, -alpha);
-		pos->undo_move(prev);
-		if (val >= beta) {
+		pos->undo_move(m.i, m.j, prev);
+		if (v >= beta) {
 			return beta;
 		}
-		if (val > alpha) {
-			alpha = val;
+		if (v > alpha) {
+			alpha = v;
 		}
 	}
 	return alpha;

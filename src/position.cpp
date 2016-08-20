@@ -30,10 +30,10 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	// Check for microboard win
 	const bool w = wbase[player_ - 1][microboards_[i]];
 	++lsCount_[i];
-	--free;
+	--free_;
 	if (w) {
 		bb_set(macroboard_, player_, i);
-		free -= SSQ_NB - lsCount_[i];
+		free_ -= SSQ_NB - lsCount_[i];
 		// Check for win
 		if (wbase[player_ - 1][macroboard_]) {
 			state_ = GameState(player_);
@@ -47,7 +47,7 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	}
 	if (bb_get(macroboard_, j) == NONE) {
 		lsForced_ = j;
-		moves_ = lsCount_[j];
+		moves_ = SSQ_NB - lsCount_[j];
 	} else {
 		lsForced_ = SSQ_NONE;
 		moves_ = free_;
@@ -63,7 +63,7 @@ void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
 	}
 	++free_;
 	--lsCount_[i];
-	moves_ = (prev == SSQ_NONE) ? free_ : lsCount_[prev];
+	moves_ = (prev == SSQ_NONE) ? free_ : SSQ_NB - lsCount_[prev];
 	lsForced_ = prev;
 	// Remove piece
 	bb_clear(microboards_[i], j);
@@ -123,6 +123,8 @@ void Position::print() const {
 		std::cerr << lsc << "\n";
 	}
 	std::cerr << "Forced square " << int(lsForced_) << "\n";
+	std::cerr << "Free " << free_ << "\n";
+	std::cerr << "Moves " << moves_ << "\n";
 	std::cerr << "Player " << player_ << "\n";
 	std::cerr << "State " << state_ << "\n";
 }
