@@ -4,6 +4,6 @@
 #include "position.h"
 #include "types.h"
 
-Square think(Position *pos, i64 time, i64 timePerMove, u32 move);
+Square think(Position *pos);
 
 #endif

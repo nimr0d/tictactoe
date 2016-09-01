@@ -23,6 +23,9 @@ int main() {
           j = StLS[s][1];          
           prev = pos->do_move(i, j);
         }
+      } else if (line == "s") {
+        std::cerr << think(pos) << "\n";
+        std::cerr << "Search\n"; 
       } else if (line == "u") {
         pos->undo_move(i, j, prev);
         std::cerr << "Undo\n"; 

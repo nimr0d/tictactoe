@@ -14,6 +14,7 @@ public:
 	Piece piece(SSquare i, SSquare j) const;
 	SSquare do_move(Square s);
 	SSquare do_move(SSquare i, SSquare j);
+	void undo_move(Square s, SSquare prev);
 	void undo_move(SSquare i, SSquare j, SSquare prev);
 	i32 moves() const;
 	void clear();

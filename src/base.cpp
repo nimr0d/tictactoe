@@ -1,7 +1,8 @@
 #include "base.h"
 
 i64 wbase[2][262144];
-i64 dbase[262144];	
+i64 dbase[262144];
+SSquare esq[262144][SSQ_NB];
 
 bool P0winning(Bitboard bb) {	
 	for (Square i = 0; i < 3; ++i) {
@@ -101,5 +102,16 @@ void Base::init() {
 
 		wbase[0][b] = P0winning(b);
 		wbase[1][b] = P1winning(b);
+		
+		int i = 0;
+		for (SSquare c = 0; c < SSQ_NB; ++c) {
+			if (bb_get(b, c) == NONE) {
+				esq[b][i] = c;
+				++i;
+			}
+		}
+		for (; i < SSQ_NB; ++i) {
+			esq[b][i] = SSQ_NONE;
+		}
 	}
 }

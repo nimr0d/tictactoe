@@ -55,7 +55,9 @@ SSquare Position::do_move(SSquare i, SSquare j) {
 	player_ = Piece(player_ ^ 3);
 	return ret;
 }
-
+void Position::undo_move(Square s, SSquare prev) {
+	undo_move(StLS[s][0], StLS[s][1], prev);
+}
 void Position::undo_move(SSquare i, SSquare j, SSquare prev) {
 	player_ = Piece(player_ ^ 3);
 	if (bb_get(macroboard_, i) == player_) {

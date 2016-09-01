@@ -16,8 +16,6 @@ typedef u32 Bitboard;
 
 typedef u32 Square;
 typedef u8 SSquare;
-typedef u8 Column;
-typedef u8 Row;
 
 #define SQ_NB 81
 #define SQ_NONE 82
@@ -38,5 +36,7 @@ enum GameState {
 
 #define INFTY 0xfffffffLL
 #define WIN 0xffffffLL
+
+#define MAX_PLY 128
 
 #endif
